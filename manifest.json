@@ -1,0 +1,1535 @@
+{
+	"id": "H5F8F04DB",
+	"name": "大圣旗舰商城",
+	"version": {
+		"name": "2.4.1",
+		"code": "96"
+	},
+	"description": "大圣旗舰商城",
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",
+	"developer": {
+		"name": "mahatama-leon",
+		"email": "75813741@qq.com",
+		"url": "http:\/\/www.hishop.com.cn"
+	},
+	"permissions": {
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		"NativeObj": {
+			"description": "NativeObj"
+		},
+		"OAuth": {
+			"description": "OAuth"
+		},
+		"Share": {
+			"description": "Share"
+		},
+		"Navigator": {
+			"description": "Navigator"
+		},
+		"Device": {
+			"description": "Device"
+		},
+		"Camera": {
+			"description": "Camera"
+		},
+		"Gallery": {
+			"description": "Gallery"
+		},
+		"Uploader": {
+			"description": "Uploader"
+		},
+		"Payment": {}
+	},
+	"plus": {
+		"distribute": {
+			"splashscreen": {
+				"android": {
+					"mdpi": "unpackage/res/splash/240x282.png",
+					"ldpi": "unpackage/res/splash/320x442.png",
+					"hdpi": "F:/Project/mahatma/resources/android/splash/drawable-port-ldpi-screen.png",
+					"xhdpi": "F:/Project/mahatma/resources/android/splash/drawable-port-mdpi-screen.png",
+					"xxhdpi": "F:/Project/mahatma/resources/android/splash/drawable-port-hdpi-screen.png"
+				},
+				"ios": {
+					"iphone": {
+						"retina55": "unpackage/res/splash/1242x2208.png",
+						"retina55l": "unpackage/res/splash/2208x1242.png",
+						"retina47": "unpackage/res/splash/750x1334.png",
+						"retina40": "unpackage/res/splash/640x1136.png",
+						"retina35": "unpackage/res/splash/640x960.png",
+						"default": "unpackage/res/splash/320x480.png"
+					}
+				}
+			},
+			"icons": {
+				"ios": {
+					"iphone": {
+						"retina": "unpackage/res/icons/114x114.png",
+						"normal": "unpackage/res/icons/57x57.png",
+						"retina8": "unpackage/res/icons/180x180.png",
+						"retina7": "unpackage/res/icons/120x120.png",
+						"settings-retina": "unpackage/res/icons/58x58.png",
+						"settings-normal": "unpackage/res/icons/29x29.png",
+						"spotlight-retina": "unpackage/res/icons/58x58.png",
+						"spotlight-normal": "unpackage/res/icons/29x29.png",
+						"settings-retina8": "unpackage/res/icons/87x87.png",
+						"spotlight-retina7": "unpackage/res/icons/80x80.png"
+					},
+					"ipad": {
+						"retina": "unpackage/res/icons/144x144.png",
+						"normal": "unpackage/res/icons/72x72.png",
+						"retina7": "unpackage/res/icons/152x152.png",
+						"normal7": "unpackage/res/icons/76x76.png",
+						"settings-retina": "unpackage/res/icons/58x58.png",
+						"settings-normal": "unpackage/res/icons/29x29.png",
+						"spotlight-retina": "unpackage/res/icons/100x100.png",
+						"spotlight-normal": "unpackage/res/icons/50x50.png",
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",
+						"spotlight-retina7": "unpackage/res/icons/80x80.png"
+					}
+				},
+				"android": {
+					"ldpi": "unpackage/res/icons/48x48.png",
+					"mdpi": "unpackage/res/icons/48x48.png",
+					"hdpi": "unpackage/res/icons/72x72.png",
+					"xhdpi": "unpackage/res/icons/96x96.png",
+					"xxhdpi": "unpackage/res/icons/144x144.png","xxxhdpi":"unpackage/res/icons/192x192.png"
+				}
+			},
+			"plugins": {
+				"payment": {
+					"weixin": {
+						"description": "微信支付",
+						"appid": "•"
+					},
+					"alipay": {
+						"description": "阿里支付",
+						"scheme": ""
+					}
+				},
+				"oauth": {
+					"weixin": {
+						"appid": "•",
+						"appsecret": "•"
+					},
+					"qq": {
+						"appid": "•"
+					},
+					"sina": {
+						"appkey": "•",
+						"appsecret": "•",
+						"redirect_uri": "•"
+					}
+				},
+				"share": {
+					"qq": {
+						"appid": "•",
+						"description": "QQ分享"
+					}
+				}
+			},
+			"google": {
+				"permissions": [
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>"
+				]
+			},"orientation":["portrait-primary","portrait-secondary"]
+		},
+		"splashscreen": {
+			"autoclose": false,
+			"waiting": true,
+			"delay": "0"
+		},
+		"runmode": "liberate",
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="
+	},
+	"fullscreen": false,
+	"dependencies": {
+		"pages": {
+			"topic-detail.html": {
+				"href": "topic-detail.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"priority": 0
+			},
+			"vshop/vshop-intro.html": {
+				"href": "vshop/vshop-intro.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"priority": 1
+			},
+			"vshop/vshop-search.html": {
+				"href": "vshop/vshop-search.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"priority": 2
+			},
+			"vshop/vshop-category.html": {
+				"href": "vshop/vshop-category.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"refer": [
+					"vshop/vshop-search.html"
+				],
+				"priority": 2
+			},
+			"vshop/vshop-detail.html": {
+				"href": "vshop/vshop-detail.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"topic-detail.html",
+					"vshop/vshop-intro.html",
+					"vshop/vshop-category.html",
+					"vshop/vshop-search.html"
+				],
+				"priority": 0
+			},
+			"forget-password.html": {
+				"href": "forget-password.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/app.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"css/account.css",
+					"images/blank.gif"
+				],
+				"priority": 1
+			},
+			"user/address-add.html": {
+				"href": "user/address-add.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/mui.listpicker.css",
+					"css/mui.poppicker.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/mui.listpicker.js",
+					"js/mui.poppicker.js",
+					"js/Region.js"
+				],
+				"refer": [
+					"user/address.html"
+				],
+				"priority": 2
+			},
+			"user/address-edit.html": {
+				"href": "user/address-edit.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/mui.listpicker.css",
+					"css/mui.poppicker.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/mui.listpicker.js",
+					"js/mui.poppicker.js",
+					"js/Region.js"
+				],
+				"refer": [
+					"user/address.html"
+				],
+				"priority": 3
+			},
+			"user/address.html": {
+				"href": "user/address.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"refer": [
+					"user/address-add.html",
+					"user/address-edit.html"
+				],
+				"priority": 2
+			},
+			"order-refund-detail.html": {
+				"href": "order-refund-detail.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/template.js"
+				],
+				"refer": [
+					"order-refund.html"
+				],
+				"priority": 4
+			},
+			"order-refund-list.html": {
+				"href": "order-refund-list.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/app.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"order-refund-detail.html"
+				],
+				"priority": 4
+			},
+			"order-refund.html": {
+				"href": "order-refund.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/app.js",
+					"js/template.js"
+				],
+				"refer": [
+					"order-refund-list.html",
+					"user/usercenter.html",
+					"order-detail.html",
+					"order-list.html",
+					"order-refund-detail.html"
+				],
+				"priority": 4
+			},
+			"order-evaluate.html": {
+				"href": "order-evaluate.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/lrz.bundle.js",
+					"js/app.js"
+				],
+				"refer": [
+					"order-detail.html",
+					"user/usercenter.html",
+					"order-list.html"
+				],
+				"priority": 6
+			},
+			"order-evaluate-append.html": {
+				"href": "order-evaluate-append.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/lrz.bundle.js",
+					"js/app.js"
+				],
+				"refer": [
+					"order-detail.html",
+					"user/usercenter.html",
+					"order-list.html"
+				],
+				"priority": 7
+			},
+			"order-detail.html": {
+				"href": "order-detail.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/app.js",
+					"js/template.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"user/usercenter.html",
+					"order-refund.html",
+					"order-list.html",
+					"order-evaluate.html",
+					"order-evaluate-append.html"
+				],
+				"priority": 3
+			},
+			"order-list.html": {
+				"href": "order-list.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/app.js",
+					"js/template.js",
+					"images/blank.gif",
+					"images/bonus-box.png"
+				],
+				"refer": [
+					"order-detail.html",
+					"user/usercenter.html",
+					"order-evaluate-append.html",
+					"order-evaluate.html"
+				],
+				"priority": 3
+			},
+			"product-comment.html": {
+				"href": "product-comment.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"images/blank.gif"
+				],
+				"priority": 5
+			},
+			"marketing/merge-personal-detail.html": {
+				"href": "marketing/merge-personal-detail.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg"
+				],
+				"priority": 8
+			},
+			"marketing/merge-personal-list.html": {
+				"href": "marketing/merge-personal-list.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"refer": [
+					"marketing/merge-personal-detail.html",
+					"order-detail.html"
+				],
+				"priority": 8
+			},
+			"order-submit.html": {
+				"href": "order-submit.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/app.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"cart.html",
+					"user/address.html",
+					"marketing/merge-personal-list.html",
+					"order-submit.html",
+					"order-list.html"
+				],
+				"priority": 6
+			},
+			"cart.html": {
+				"href": "cart.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/delayimg.min.js",
+					"js/app.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"order-submit.html"
+				],
+				"priority": 6
+			},
+			"cart-box.html": {
+				"href": "cart-box.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"cart.html"
+				],
+				"refer": [],
+				"priority": 6
+			},
+			"vshop/vshop-coupon.html": {
+				"href": "vshop/vshop-coupon.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"priority": 7
+			},
+			"detail.html": {
+				"href": "detail.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"js/delayimg.min.js",
+					"js/template.js",
+					"images/blank.gif",
+					"images/logo.png"
+				],
+				"refer": [
+					"product-comment.html",
+					"cart-box.html",
+					"vshop/vshop-coupon.html",
+					"marketing/merge-detail.html",
+					"order-submit.html"
+				],
+				"priority": 5
+			},
+			"marketing/merge-detail.html": {
+				"href": "marketing/merge-detail.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js"
+				],
+				"refer": [
+					"detail.html",
+					"vshop/vshop-detail.html",
+					"order-submit.html"
+				],
+				"priority": 5
+			},
+			"marketing/merge-list.html": {
+				"href": "marketing/merge-list.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg"
+				],
+				"refer": [
+					"marketing/merge-detail.html"
+				],
+				"priority": 5
+			},
+			"marketing/merge-any.html": {
+				"href": "marketing/merge-any.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/app.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg"
+				],
+				"refer": [
+					"marketing/merge-list.html"
+				],
+				"priority": 5
+			},
+			"user/history.html": {
+				"href": "user/history.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"priority": 6
+			},
+			"user/user-coupon.html": {
+				"href": "user/user-coupon.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"refer": [
+					"vshop/vshop-detail.html"
+				],
+				"priority": 8
+			},
+			"user/user-favproduct.html": {
+				"href": "user/user-favproduct.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"priority": 9
+			},
+			"user/aboutus.html": {
+				"href": "user/aboutus.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"images/a1.png",
+					"images/a2.png"
+				],
+				"priority": 10
+			},
+			"user/user-invite.html": {
+				"href": "user/user-invite.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"priority": 11
+			},
+			"user/user-favshop.html": {
+				"href": "user/user-favshop.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"refer": [
+					"vshop/vshop-detail.html"
+				],
+				"priority": 12
+			},
+			"user/bind-phone.html": {
+				"href": "user/bind-phone.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"css/account.css",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"priority": 13
+			},
+			"user/change-password.html": {
+				"href": "user/change-password.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"css/account.css",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"priority": 14
+			},
+			"user/user-account.html": {
+				"href": "user/user-account.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"refer": [
+					"user/bind-phone.html",
+					"user/change-password.html"
+				],
+				"priority": 13
+			},
+			"user/usercenter.html": {
+				"href": "user/usercenter.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"images/default-photo.png"
+				],
+				"refer": [
+					"user/address.html",
+					"order-list.html",
+					"order-refund-list.html",
+					"marketing/merge-any.html",
+					"user/history.html",
+					"marketing/merge-personal-list.html",
+					"user/user-coupon.html",
+					"user/user-favproduct.html",
+					"user/aboutus.html",
+					"user/user-invite.html",
+					"user/user-favshop.html",
+					"user/user-account.html"
+				],
+				"priority": 2
+			},
+			"bind-login.html": {
+				"href": "bind-login.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"css/account.css",
+					"js/mui.min.js",
+					"js/app.js"
+				],
+				"refer": [
+					"login.html",
+					"user/usercenter.html"
+				],
+				"priority": 3
+			},
+			"reg.html": {
+				"href": "reg.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"css/account.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"images/blank.gif"
+				],
+				"priority": 4
+			},
+			"login.html": {
+				"href": "login.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"css/account.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"images/weixin.png",
+					"images/qq.png"
+				],
+				"refer": [
+					"forget-password.html",
+					"user/usercenter.html",
+					"bind-login.html",
+					"reg.html",
+					"cart-box.html"
+				],
+				"priority": 1
+			},
+			"limitbuy-list.html": {
+				"href": "limitbuy-list.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"priority": 3
+			},
+			"search.html": {
+				"href": "search.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js"
+				],
+				"priority": 4
+			},
+			"category.html": {
+				"href": "category.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/default.png"
+				],
+				"refer": [
+					"search.html"
+				],
+				"priority": 4
+			},
+			"topic.html": {
+				"href": "topic.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/blank.gif"
+				],
+				"refer": [
+					"topic-detail.html"
+				],
+				"priority": 6
+			},
+			"home.html": {
+				"href": "home.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/index-icon1.png",
+					"images/index-icon2.png",
+					"images/index-icon3.png",
+					"images/index-icon4.png"
+				],
+				"refer": [
+					"limitbuy-list.html",
+					"category.html",
+					"marketing/merge-list.html",
+					"topic.html",
+					"topic-detail.html",
+					"detail.html"
+				],
+				"priority": 3
+			},
+			"vshop/vshop.html": {
+				"href": "vshop/vshop.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/blank.gif"
+				],
+				"priority": 4
+			},
+			"vshop/vshop-list.html": {
+				"href": "vshop/vshop-list.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/delayimg.min.js",
+					"images/blank.gif"
+				],
+				"priority": 6
+			},
+			"index.html": {
+				"href": "index.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"images/border.png",
+					"images/logo-bg.png",
+					"images/bonus.png",
+					"images/flow.png",
+					"images/invite_bg.png",
+					"images/merge.png",
+					"images/merge-list-thumb-mask.png",
+					"images/merge-personal-detail-line.png",
+					"images/merge-call.jpg",
+					"images/merge-any.jpg",
+					"images/merge-not.jpg",
+					"js/mui.min.js",
+					"js/app.js",
+					"home.html"
+				],
+				"refer": [
+					"vshop/vshop-detail.html",
+					"login.html",
+					"detail.html",
+					"vshop/vshop.html",
+					"user/usercenter.html",
+					"vshop/vshop-list.html",
+					"search.html",
+					"cart-box.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"integral/gift-list.html",
+				"images/guide.png",
+				"js/1.chunk.js",
+				"integral/integral-detail.html",
+				"js/2.chunk.js",
+				"images/sinaweibo.png",
+				"marketing/merge-call.html",
+				"integral/integral-home.html"
+			]
+		}
+	}
+}

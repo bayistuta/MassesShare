@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>积分商城首页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">积分商城</h1>
+		</header>
+		<div class="scroll-div" id="scrollDiv">
+			<div class="mui-scroll">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop" id="sliderImg">
+					</div>
+					<div class="mui-slider-indicator">
+					</div>
+					<div class="mui-pull-loading mui-spinner custom-loading"></div>
+				</div>
+				<ul class="mui-table-view mui-grid-view mui-clearfix index-product" id="productsList"></ul>
+				
+				
+				
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script>
+			mui.init();
+			var slider=document.getElementById('sliderImg');
+			slider.style.height=slider.offsetWidth/2+'px';
+			
+			/*if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			mui.plusReady(function() {
+				mui.ajax(URL+'api/home/Get?pageNo=1&pageSize=10',{
+					dataType:'json',
+					type:'get',
+					success:function(data){
+						if(data.Success=='true'){
+							var imgLen=data.Slide.length;
+							if(imgLen>1){
+								//轮播图
+								var outputimg = ""; 
+					            var outputright = "";
+					            
+					            outputimg+='<div class="mui-slider-item mui-slider-item-duplicate"><a class="c-href" data-href="'+data.Slide[imgLen-1].Url+'"><img src="'+data.Slide[imgLen-1].ImageUrl+'" /></a></div>';
+					            for (var i = 0; i < imgLen; i++) {
+					            	outputimg+='<div class="mui-slider-item"><a class="c-href" data-href="'+data.Slide[i].Url+'"><img src="'+data.Slide[i].ImageUrl+'" /></a></div>';
+					                outputright += '<div class="mui-indicator'+(i == 0?' mui-active':'')+'"></div>';
+					            }
+					            outputimg+='<div class="mui-slider-item mui-slider-item-duplicate"><a class="c-href" data-href="'+data.Slide[0].Url+'"><img src="'+data.Slide[0].ImageUrl+'"  /></a></div>';
+					            slider.innerHTML=outputimg;
+					            document.getElementsByClassName('mui-slider-indicator')[0].innerHTML=outputright;
+					            
+								mui('#slider').slider({interval:5000});
+					            
+							}else if(imgLen==1){
+								slider.innerHTML='<div class="mui-slider-item"><a class="c-href" data-href="'+data.Slide[0].Url+'"><img src="'+data.Slide[0].ImageUrl+'" style="width:100%" /></a></div>';
+								mui('#slider').slider();
+							}else{
+								document.getElementById('slider').style.display='none';
+							}
+							if (data.Product.length > 0) {
+			                    var html = '';
+			                    document.getElementById('productsList').innerHTML=initData(html,data);
+			                    //图片延迟加载初始化
+			                    delayimg.init();
+			                }
+							document.getElementById('pullrefresh').className='mui-content mui-scroll-wrapper';
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.navigator.closeSplashscreen();
+						var errorText='<div class="empty-show"><h4>网络不给力，请检查网络！</h4><button id="reloadWv" class="mui-btn mui-btn-negative">重新加载</button></div>'
+						document.getElementById('pullrefresh').innerHTML=errorText;
+						document.getElementById('pullrefresh').className='mui-content mui-scroll-wrapper';
+					}
+				});
+				
+			});
+			
+			function initData(html,data){
+				for (var i = 0; i < data.Product.length; i++) {
+                    html += '<li class="mui-table-view-cell mui-media mui-col-xs-6">'+
+            			'<div class="index-product-box">';
+            				if(data.Product[i].Discount>0&&data.Product[i].Discount<1)
+            					html += '<i>'+data.Product[i].Discount*10+'折</i>';
+							html +='<a data-id="'+data.Product[i].Id+'">'+
+								'<div class="p-img"><b data-delay-background="'+data.Product[i].ImageUrl+'"></b></div>'+
+								'<div class="mui-media-body">'+data.Product[i].Name+'</div>'+
+								'<p class="index-product-price"><span>¥ '+data.Product[i].SalePrice+'</span><em>¥'+data.Product[i].MarketPrice+'</em></p>'+
+							'</a>'+
+						'</div>'+
+            		'</li>';
+                }
+				return html;
+			}
+			
+			mui('#productsList').on('tap', 'a', function(e) {
+				var id = this.getAttribute('data-id');
+				showProduct(id);
+			});*/
+			
+
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>礼品详情页</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav transparent-bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">礼品详情</h1>
+		</header>
+		<div class="scroll-div" id="scrollDiv">
+			<div class="mui-content transparent">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop" id="sliderImg" style="margin: -5px 0;">
+					</div>
+					<div class="mui-slider-indicator">
+					</div>
+					<div class="mui-pull-loading mui-spinner custom-loading"></div>
+				</div>
+			</div>
+		</div>
+		<footer class="integral-bar transparent" id="integralBar">
+			<div class="integral-buy">我要兑换</div>
+	    </footer>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/template.js" ></script>
+		<script>
+				mui.init({swipeBack: true});
+				
+				var productId,
+					slider=document.getElementById('sliderImg'),
+					loadArr=document.getElementsByClassName('custom-loading');
+				slider.style.height=slider.offsetWidth+'px';
+				setTimeout(function(){
+					loadArr[0].parentNode.removeChild(loadArr[0]);
+				},5000);
+				mui.plusReady(function() {
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					productId = plus.webview.currentWebview().productId;
+					plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+					mui.ajax(URL+'api/product/GetProductDetail/'+productId,{
+						dataType:'json',
+						type:'get',
+						timeout:10000,
+						success:function(data){
+							if(data.Success=='true'){
+								var imgLen=data.Product.ImagePath.length;
+								if(imgLen>1){
+				                    //轮播图
+									var outputimg = "",
+										outputright = "";
+						            outputimg+='<div class="mui-slider-item mui-slider-item-duplicate"><div class="mui-zoom"><img src="'+data.Product.ImagePath[imgLen-1]+'" /></div></div>';
+						            for (var i = 0; i < imgLen; i++) {
+						            	outputimg+='<div class="mui-slider-item"><div class="mui-zoom"><img src="'+data.Product.ImagePath[i]+'" data-preview-src="" data-preview-group="1" /></div></div>';
+						                outputright += '<div class="mui-indicator'+(i == 0?' mui-active':'')+'"></div>';
+						            }
+						            outputimg+='<div class="mui-slider-item mui-slider-item-duplicate"><div class="mui-zoom"><img src="'+data.Product.ImagePath[0]+'"  /></div></div>';
+						            slider.innerHTML=outputimg;
+						            document.getElementsByClassName('mui-slider-indicator')[0].innerHTML=outputright;
+									mui('#slider').slider({interval:5000});
+						            mui.previewImage();
+								}else if(imgLen==1){
+									slider.innerHTML='<div class="mui-slider-item"><div class="mui-zoom"><img src="'+data.Product.ImagePath[0]+'" data-preview-src="" data-preview-group="1" /></div></div>';
+									mui('#slider').slider();
+									mui.previewImage();
+								}else{
+									document.getElementById('slider').style.display='none';
+								}
+								
+								document.getElementsByClassName('mui-content')[0].insertAdjacentHTML('beforeend',template('productInfo', data));
+								
+								mui('.mui-numbox').numbox();
+								
+								
+								// 商品详情延时加载
+	                            var productDesc = document.getElementById('ProductDescription'),
+	                            	scrollDiv=document.getElementById('scrollDiv'),
+	                            	sh = productDesc.getBoundingClientRect().top,
+	                            	ch = scrollDiv.offsetHeight,
+									loadDesc=function(){
+										var scrollTop = this.scrollTop;
+										if (scrollTop + ch >= sh) {
+											scrollDiv.removeEventListener('scroll',loadDesc);
+										    if(productDesc.innerHTML==''){
+												productDesc.innerHTML=data.Product.ProductDescription;
+										    }
+										}
+									};
+								setTimeout(function(){
+									scrollDiv.removeEventListener('scroll',loadDesc);
+									productDesc.innerHTML=data.Product.ProductDescription;
+								},5000)
+								scrollDiv.addEventListener('scroll',loadDesc);
+								
+								
+								himall.stopHref(mui('#ProductDescription'));
+								
+								
+								
+								w.close();
+								document.getElementsByClassName("mui-content")[0].className="mui-content";
+								document.getElementById('integralBar').className='';
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							reloadWvLoad();
+						}
+					});
+				});
+				
+				
+				
+		</script>
+		
+		<script id="productInfo" type="text/html">
+			<ul class="mui-table-view table-goods-box">
+				<li class="mui-table-view-text">
+					<div class="goods-info">
+						<p class="p-price"><span>¥ {{Product.MinSalePrice}}</span><s>¥{{Product.MarketPrice}}</s></p>
+						<h3 id="pName">{{Product.ProductName}}</h3>
+					</div>
+				</li>
+			</ul>
+			<div class="p-detail-more"><span>拖动查看详情</span></div>
+			<div class="p-detail mt10">
+				<h4>礼品图文详情</h4>
+				<div class="p-detail-html" id="ProductDescription"></div>
+			</div>
+		</script>
+		
+		<script id="skuInfo" type="text/html">
+			<div class="choose-head border-bot">
+				<img src="{{Product.ImagePath[0]}}">
+				<p><em id="pPrice">¥ {{Product.MinSalePrice}}</em></p>
+				<p>库存 <span id="stock">0</span> 件</p>
+			</div>
+			<div class="goods-num">
+				<label>数量</label>
+				<div id="pMaxCount" class="mui-numbox" data-numbox-min="1">
+					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					<input id="porductCount" class="mui-numbox-input" type="number" value="1" />
+					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+				</div>
+			</div>
+			<a class="custom-btn" id="confirmCart" data-type="cart">确 定</a>
+		</script>
+	</body>
+
+</html>

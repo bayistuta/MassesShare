@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>首页</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent" style="margin-top: -1px;">
+			<div class="mui-scroll">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop" id="sliderImg">
+					</div>
+					<div class="mui-slider-indicator">
+					</div>
+					<div class="mui-pull-loading mui-spinner custom-loading"></div>
+				</div>
+				<ul class="fast-nav">
+					<li id="categoryPage"><img src="images/index-icon1.png" /><span>栏目分类</span></li>
+					<li id="topicList"><img src="images/index-icon2.png" /><span>精选专题</span></li>
+					<li id="marketing"><img src="images/index-icon3.png" /><span>拼团</span></li>
+					<li id="limitBuy"><img src="images/index-icon4.png" /><span>限时购</span></li>
+				</ul>
+				
+				<div id="indexTopic" class="index-topic mui-clearfix">
+					<div class="mui-pull-loading mui-spinner custom-loading"></div>
+				</div>
+				<h3 class="custom-title">热销商品</h3>
+				<ul class="mui-table-view mui-grid-view mui-clearfix index-product" id="productsList">
+				</ul>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script>
+			var page = 1,
+				isnodata = false,
+				loadPage;
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    up : {
+					    contentrefresh : "正在加载...",
+					    contentnomore:'已加载全部商品',
+					    callback :function(){
+					      	var self=this;
+					      	setTimeout(function() {
+						      	if (!isnodata) {
+						      		page++;
+							        mui.ajax(URL+'api/home/Get?pageNo='+page+'&pageSize=10',{
+										dataType:'json',
+										type:'get',
+										timeout:10000,
+										success:function(data){
+											if(data.Success=='true'){
+							                    var html = '';
+							                    document.getElementById('productsList').insertAdjacentHTML('beforeend',initData(html,data));
+							                    delayimg.render();
+							                    if (data.TotalProduct<=page*10) {isnodata = true;}
+												self.endPullupToRefresh(isnodata);
+											}
+										},
+										error:function(xhr,type,errorThrown){
+											plus.nativeUI.toast('请求失败，请检查网络')
+										}
+									});
+							    }else{
+							    	self.endPullupToRefresh(isnodata);
+							    }
+						    },1500);
+				    	}
+					    
+				    },
+				    down : {
+						contentdown : "下拉可以刷新",
+						contentover : "释放立即刷新",
+						contentrefresh : "正在刷新...",
+						callback :function(){
+							setTimeout(function(){
+								page = 1;
+								isnodata = false;
+								loadPage();
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								mui('#pullrefresh').pullRefresh().refresh(true);
+							},300)
+						}
+				    }
+				}
+			});
+			var slider=document.getElementById('sliderImg'),
+				topicbox=document.getElementById('indexTopic'),
+				loadArr=document.getElementsByClassName('custom-loading');
+			slider.style.height=slider.offsetWidth/2+'px';
+			topicbox.style.height=topicbox.offsetWidth*0.62+'px';
+			setTimeout(function(){
+				for(var i=loadArr.length-1; i>=0; i--){
+					loadArr[i].parentNode.removeChild(loadArr[i]);
+				}
+			},5000);
+			
+			if (mui.os.android)
+				document.getElementsByClassName('mui-scroll')[0].className='';
+			
+			mui.plusReady(function() {
+				loadPage=function(){
+					mui.ajax(URL+'api/home/Get?pageNo=1&pageSize=10',{
+						dataType:'json',
+						type:'get',
+						success:function(data){
+							if(data.Success=='true'){
+								var imgLen=data.Slide.length;
+								if(imgLen>1){
+									//轮播图
+									var outputimg = ""; 
+						            var outputright = "";
+						            
+						            outputimg+='<div class="mui-slider-item mui-slider-item-duplicate"><a class="c-href" data-href="'+data.Slide[imgLen-1].Url+'"><img src="'+data.Slide[imgLen-1].ImageUrl+'" /></a></div>';
+						            for (var i = 0; i < imgLen; i++) {
+						            	outputimg+='<div class="mui-slider-item"><a class="c-href" data-href="'+data.Slide[i].Url+'"><img src="'+data.Slide[i].ImageUrl+'" /></a></div>';
+						                outputright += '<div class="mui-indicator'+(i == 0?' mui-active':'')+'"></div>';
+						            }
+						            outputimg+='<div class="mui-slider-item mui-slider-item-duplicate"><a class="c-href" data-href="'+data.Slide[0].Url+'"><img src="'+data.Slide[0].ImageUrl+'"  /></a></div>';
+						            slider.innerHTML=outputimg;
+						            document.getElementsByClassName('mui-slider-indicator')[0].innerHTML=outputright;
+						            
+									mui('#slider').slider({interval:5000});
+						            
+								}else if(imgLen==1){
+									slider.innerHTML='<div class="mui-slider-item"><a class="c-href" data-href="'+data.Slide[0].Url+'"><img src="'+data.Slide[0].ImageUrl+'" style="width:100%" /></a></div>';
+									mui('#slider').slider();
+								}else{
+									document.getElementById('slider').style.display='none';
+								}
+								//推荐专题
+								var indexTopic='';
+								for (var i = 0; i < data.Topic.length; i++) {
+									indexTopic+='<a class="fore'+(i+1)+' c-href" data-href="'+data.Topic[i].Url+'"><img src="'+data.Topic[i].ImageUrl+'"/></a>';
+								}
+								document.getElementById('indexTopic').insertAdjacentHTML('beforeend',indexTopic);
+								//第一页商品
+								if (data.TotalProduct<=10) {isnodata = true;}
+								if (data.Product.length > 0) {
+				                    var html = '';
+				                    document.getElementById('productsList').innerHTML=initData(html,data);
+				                    //图片延迟加载初始化
+				                    delayimg.init();
+				                }
+								window.scrollTo(0,0)
+								plus.navigator.closeSplashscreen();
+								document.getElementById('pullrefresh').className='mui-content mui-scroll-wrapper';
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							plus.navigator.closeSplashscreen();
+							var errorText='<div class="empty-show"><h4>网络不给力，请检查网络！</h4><button id="reloadWv" class="mui-btn mui-btn-negative">重新加载</button></div>'
+							document.getElementById('pullrefresh').innerHTML=errorText;
+							document.getElementById('pullrefresh').className='mui-content mui-scroll-wrapper';
+						}
+					});
+				}
+				
+				loadPage();
+				
+				//添加列表项的点击事件
+				mui('#productsList').on('tap', 'a', function(e) {
+					var id = this.getAttribute('data-id');
+					showProduct(id);
+				});
+				
+			});
+			
+			function initData(html,data){
+				for (var i = 0; i < data.Product.length; i++) {
+                    html += '<li class="mui-table-view-cell mui-media mui-col-xs-6">'+
+            			'<div class="index-product-box">';
+            				if(data.Product[i].Discount>0&&data.Product[i].Discount<1)
+            					html += '<i>'+data.Product[i].Discount*10+'折</i>';
+							html +='<a data-id="'+data.Product[i].Id+'">'+
+								'<div class="p-img"><b data-delay-background="'+data.Product[i].ImageUrl+'"></b></div>'+
+								'<div class="mui-media-body">'+data.Product[i].Name+'</div>'+
+								'<p class="index-product-price"><span>¥ '+data.Product[i].SalePrice+'</span><em>¥'+data.Product[i].MarketPrice+'</em></p>'+
+							'</a>'+
+						'</div>'+
+            		'</li>';
+                }
+				return html;
+			}
+			
+			mui('.mui-content').on('tap', '.c-href', function() {
+				var href=this.getAttribute('data-href').toLowerCase(),
+					id;
+				if(href.indexOf('product/detail/')>=0){
+					id=href.split('product/detail/')[1];
+					showProduct(id);
+				}else if(href.indexOf('topic/detail/')>=0){
+					id=href.split('topic/detail/')[1];
+					himall.openVW('topic-detail.html','',{topicId:id})
+				}else{
+					plus.runtime.openURL(href)
+				}
+			});
+			
+			document.getElementById('topicList').addEventListener('tap',function(){
+				himall.openVW('topic.html');
+			});
+			document.getElementById('marketing').addEventListener('tap',function(){
+				himall.openVW('marketing/merge-list.html');
+			});
+			document.getElementById('categoryPage').addEventListener('tap',function(){
+				himall.openVW('category.html');
+			});
+			document.getElementById('limitBuy').addEventListener('tap',function(){
+				himall.openVW('limitbuy-list.html');
+			});
+
+		</script>
+	</body>
+
+</html>

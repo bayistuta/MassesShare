@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>首页父窗口</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 id="title" class="mui-title">商城首页</h1>
+			<div class="search-box" id="searchBtn">
+				<input type="search" class="search-text" id="keywordsText" readonly="readonly" placeholder="搜索全部商品...">
+				<i class="mui-icon mui-icon-search search-btn" style="right:6px;"></i>
+			</div>
+			<button id='moreVshop' class=" mui-pull-right mui-btn-link">更多</button>
+		</header>
+		<footer>
+			<nav class="mui-bar mui-bar-tab">
+				<a id="defaultTab" class="mui-tab-item subpage-btn mui-active" data-href="home.html">
+					<span class="mui-icon iconfont icon-shouye"></span>
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<!--<a class="mui-tab-item subpage-btn" id="goVshop" data-href="vshop/vshop.html">
+					<span class="mui-icon iconfont icon-dianpu"></span>
+					<span class="mui-tab-label">微店</span>
+				</a>-->
+				<a class="mui-tab-item" id="goCart">
+					<span class="mui-icon iconfont icon-gouwuche"></span>
+					<span class="mui-tab-label">购物车</span>
+				</a>
+				<a class="mui-tab-item subpage-btn" id="goUser" data-href="user/usercenter.html">
+					<span class="mui-icon iconfont icon-user"></span>
+					<span class="mui-tab-label">个人中心</span>
+				</a>
+			</nav>
+		</footer>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			 //mui初始化
+			mui.init();
+			var subpages = ['home.html', 'vshop/vshop.html', 'user/usercenter.html'];
+			var subpage_style = {
+				top: '44px',
+				bottom: '50px'
+			};
+			
+			var aniShow = {};
+			
+			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				//plus.nativeUI.Waiting();
+				plus.screen.lockOrientation("portrait-primary"); // 仅支持竖屏显示，为了测试添加
+				plus.navigator.setStatusBarBackground("#e3393c");
+				plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				var self = plus.webview.currentWebview();
+				if(self.children().length<=3){
+					for (var i = 0; i < 3; i++) {
+						var temp = {};
+						var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+						if (i > 0) {
+							sub.hide();
+						}else{
+							temp[subpages[i]] = "true";
+							mui.extend(aniShow,temp);
+						}
+						self.append(sub);
+					}
+				}
+			});
+			 //当前激活选项
+			var activeTab = subpages[0];
+			var title = document.getElementById("title");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a.subpage-btn', function(e) {
+				var targetTab = this.getAttribute('data-href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				//更换标题
+				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+				//显示目标选项卡
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					plus.webview.show(targetTab,"fade-in",300);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
+			
+			document.getElementById('goCart').addEventListener('tap',function(e){
+				e.stopPropagation();
+				if(himall.isLogin()){
+					himall.openVW('cart-box.html');
+				}else{
+					showLogin({id:'cart-box.html'});
+				}
+			});
+			
+			document.getElementById('searchBtn').addEventListener('tap',function(e){
+				himall.openVW('search.html');
+			});
+			
+			var searchBtn=document.getElementById("searchBtn"),
+				moreVshop=document.getElementById("moreVshop");
+			
+			document.getElementById("goUser").addEventListener('tap',function () {
+				mui.fire(plus.webview.getWebviewById('user/usercenter.html'),'updateData');
+				title.style.display='none';
+				searchBtn.style.display='none';
+				moreVshop.style.display='none';
+			});
+			
+//			document.getElementById("goVshop").addEventListener('tap',function () {
+//				mui.fire(plus.webview.getWebviewById('vshop/vshop.html'),'updateData');
+//				
+//				title.style.display='block';
+//				searchBtn.style.display='none';
+//				moreVshop.style.display='block';
+//			});
+			
+			document.getElementById("defaultTab").addEventListener('tap',function () {
+				title.style.display='none';
+				searchBtn.style.display='block';
+				moreVshop.style.display='none';
+			});
+			document.getElementById("moreVshop").addEventListener('tap',function () {
+				himall.openVW('vshop-list.html','vshop/vshop-list.html');
+			});
+			
+			himall.quitApp();
+		</script>
+	</body>
+
+</html>
