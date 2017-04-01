@@ -1204,7 +1204,8 @@
 					"user/aboutus.html",
 					"user/user-invite.html",
 					"user/user-favshop.html",
-					"user/user-account.html"
+					"user/user-account.html",
+					"login.html"
 				],
 				"priority": 2
 			},
@@ -1340,7 +1341,10 @@
 					"js/app.js",
 					"js/delayimg.min.js"
 				],
-				"priority": 4
+				"priority": 4,
+				"refer": [
+					"detail.html"
+				]
 			},
 			"category.html": {
 				"href": "category.html",
@@ -1457,7 +1461,8 @@
 					"js/delayimg.min.js",
 					"images/blank.gif"
 				],
-				"priority": 4
+				"priority": 4,
+				"refer": []
 			},
 			"vshop/vshop-list.html": {
 				"href": "vshop/vshop-list.html",

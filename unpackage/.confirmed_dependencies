@@ -240,7 +240,9 @@
 			"js/app.js",
 			"js/template.js",
 			"images/blank.gif",
-			"images/bonus-box.png"
+			"images/bonus-box.png",
+			"fonts/mui.ttf",
+			"fonts/iconfont.ttf"
 		],
 		"refer": [
 			"order-detail.html",
@@ -321,7 +323,8 @@
 			"js/mui.min.js",
 			"js/delayimg.min.js",
 			"js/app.js",
-			"images/blank.gif"
+			"images/blank.gif",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"order-submit.html"
@@ -558,7 +561,8 @@
 			"user/aboutus.html",
 			"user/user-invite.html",
 			"user/user-favshop.html",
-			"user/user-account.html"
+			"user/user-account.html",
+			"login.html"
 		],
 		"priority": 0
 	},
@@ -629,9 +633,13 @@
 			"css/style.css",
 			"js/mui.min.js",
 			"js/app.js",
-			"js/delayimg.min.js"
+			"js/delayimg.min.js",
+			"fonts/mui.ttf",
+			"images/logo-bg.png"
 		],
-		"refer": [],
+		"refer": [
+			"detail.html"
+		],
 		"priority": 0
 	},
 	"category.html": {
@@ -642,7 +650,8 @@
 			"js/mui.min.js",
 			"js/app.js",
 			"js/delayimg.min.js",
-			"images/default.png"
+			"images/default.png",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"search.html"
