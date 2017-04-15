@@ -28,7 +28,15 @@
 				<!--<a class="mui-tab-item subpage-btn" id="goVshop" data-href="vshop/vshop.html">
 					<span class="mui-icon iconfont icon-dianpu"></span>
 					<span class="mui-tab-label">微店</span>
+				</a>
+				<a class="mui-tab-item" id="goOffline" data-href="order-offline-box.html">
+					<span class="mui-icon iconfont icon-user"></span>
+					<span class="mui-tab-label">线下订单</span>
 				</a>-->
+				<a class="mui-tab-item" id="goOfflineApprove" data-href="order-offline-box-approve.html">
+					<span class="mui-icon iconfont icon-user"></span>
+					<span class="mui-tab-label">审核订单</span>
+				</a>
 				<a class="mui-tab-item" id="goCart">
 					<span class="mui-icon iconfont icon-gouwuche"></span>
 					<span class="mui-tab-label">购物车</span>
@@ -111,7 +119,24 @@
 					defaultTab.classList.add('mui-active');
 				}
 			});
-			
+			/*
+			document.getElementById('goOffline').addEventListener('tap',function(e){
+				e.stopPropagation();
+				if(himall.isLogin()){
+					himall.openVW('order-offline-box.html');
+				}else{
+					showLogin({id:'order-offline-box.html'});
+				}
+			});
+			*/
+			document.getElementById('goOfflineApprove').addEventListener('tap',function(e){
+				e.stopPropagation();
+				if(himall.isLogin()){
+					himall.openVW('order-offline-box-approve.html');
+				}else{
+					showLogin({id:'order-offline-box-approve.html'});
+				}
+			});
 			
 			document.getElementById('goCart').addEventListener('tap',function(e){
 				e.stopPropagation();

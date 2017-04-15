@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>审核订单</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="order-offline-list" id="orderOfflineList">
+					
+				</ul>
+			</div>	
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var loadPage;
+			var pageIndex = 1;
+			var pageCount = 5;
+			var totalCount = 0;
+			var orders = [];
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    down : {
+						contentdown : "下拉可以刷新",
+						contentover : "释放立即刷新",
+						contentrefresh : "正在刷新...",
+						callback :function(){
+							setTimeout(function(){
+								pageIndex = 1;
+								orders = [];
+								loadPage();
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							},300)
+						}
+				    },
+					up : {
+				      height:50,
+				      auto:true,
+				      contentrefresh : "正在加载...",
+				      contentnomore:'没有更多数据了',
+				      callback : function() {
+				      	var self = this;
+				      	setTimeout(function(){
+							if (pageIndex * pageCount < totalCount) {
+								pageIndex += 1;
+								loadPage();
+								self.endPullupToRefresh((pageIndex * pageCount) >= totalCount);
+							}
+						},300)
+				      }
+				   }
+				},
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				
+				loadPage=function(){
+					mui.ajax(URL+'api/offlineorder/orderlist',{
+						data: {
+							pageNo: pageIndex,
+							pageSize: pageCount,
+						},
+						dataType:'json',
+						type:'post',
+						timeout:10000,
+						success:function(data){
+							if(data.success){
+								totalCount = data.page.Total;
+								pageIndex = data.page.PageNo;
+								pageCount = data.page.PageSize;
+								if (data.data.length > 0) {
+									orders = orders.concat(data.data);
+									var str = '';
+									for (var i = 0; i < orders.length; i++ ) {
+										var order = orders[i];
+										str += '<li>';
+										str += '<div class="mui-clearfix"><strong class="mui-pull-left">' + order.ProductName+ '</strong><span class="mui-pull-right price">￥' + order.OrderAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">订单号</span><span class="mui-pull-right value">' + order.Id + '</span></div>';
+										str += '<div class="mui-clearfix order-date"><span class="mui-pull-left title">下单时间</span><span class="mui-pull-right value">' + order.OrderDate + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">数量</span><span class="mui-pull-right value">' + order.ProductCount + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">现金支付</span><span class="mui-pull-right value">' + order.CashAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">红包支付</span><span class="mui-pull-right value">' + order.CreditAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">状态</span><span class="mui-pull-right price">' + order.OrderStatusText + '</span></div>';
+										str += '</li>';
+									}
+								} else {
+									str = '';
+								}
+								document.getElementById('orderOfflineList').innerHTML=str;
+								w.close();
+								document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							//reloadWvLoad();
+						}
+					});
+				}
+				
+				loadPage();
+				
+				
+			});
+			
+			document.addEventListener('updateData', function() {
+				pageIndex = 1;
+				orders = [];
+				loadPage();
+			});
+			
+			
+		</script>
+	</body>
+</html>

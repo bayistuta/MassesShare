@@ -817,3 +817,19 @@ p img { max-width: 100%; height: auto; }
 .mui-btn-danger:active {background-color:#4b6efb !important}
 .mui-btn-negative {background-color:#3e7fd2 !important; color:#fff;border-color: #3e7fd2 !important;}
 .mui-btn-negative:active {background-color:#4b6efb !important}
+
+/*offline order*/
+.order-offline-list li{background-color: #FFFFFF; margin-bottom: 15px; padding: 10px 5px 10px 5px;}
+.order-offline-list li strong{font-size: 17px;}
+.order-offline-list li .order-date{border-bottom: solid 1px #cfcfcf;margin-bottom: 5px;}
+.order-offline-list li div{line-height: 30px;}
+.order-offline-list li .price {color: #E3393C;} 
+
+.order-offline-approve-list li { position: relative;padding-left: 45px;}
+.order-offline-approve-list .mui-checkbox{    
+	position: absolute;
+    top: 8px;
+    left: 36px;
+    width: 24px;
+    height: 24px;
+ }

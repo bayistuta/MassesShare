@@ -338,7 +338,8 @@
 			"css/style.css",
 			"js/mui.min.js",
 			"js/app.js",
-			"cart.html"
+			"cart.html",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"cart.html"
@@ -744,8 +745,57 @@
 			"user/usercenter.html",
 			"vshop/vshop-list.html",
 			"search.html",
-			"cart-box.html"
+			"cart-box.html",
+			"order-offline.html",
+			"order-offline-box.html",
+			"order-offline-box-approve.html"
 		],
 		"priority": 0
+	},
+	"order-offline.html": {
+		"resources": [
+			"js/app.js",
+			"js/delayimg.min.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css"
+		]
+	},
+	"order-offline-box.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"cart.html",
+			"css/mui.min.css",
+			"css/style.css"
+		],
+		"refer": [
+			"cart.html",
+			"order-offline.html"
+		]
+	},
+	"order-offline-box-approve.html": {
+		"resources": [
+			"order-offline-approve.html",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css"
+		],
+		"refer": [
+			"order-offline-approve.html"
+		]
+	},
+	"order-offline-approve.html": {
+		"resources": [
+			"js/app.js",
+			"js/delayimg.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css"
+		]
 	}
 }
