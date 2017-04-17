@@ -6,7 +6,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="format-detection" content="telephone=no,email=no" />
-		<title>审核订单</title>
+		<title>报单中心子页面</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 	</head>
@@ -17,7 +17,15 @@
 					
 				</ul>
 			</div>	
+			<div class="cart-bottom transparent" id="section-approve" style="display:none">
+				<div class="mui-checkbox mui-left">
+					<label>全选</label>
+					<input name="s-checkAll" id="s-checkAll" type="checkbox">
+				</div>
+				<a class="submit-cart" id="submitCart">一键审核</a>
+			</div>
 		</div>
+		<script src="js/lodash.min.js"></script>
 		<script src="js/mui.min.js"></script>
 		<script src="js/delayimg.min.js"></script>
 		<script src="js/app.js"></script>
@@ -55,8 +63,8 @@
 							if (pageIndex * pageCount < totalCount) {
 								pageIndex += 1;
 								loadPage();
-								self.endPullupToRefresh((pageIndex * pageCount) >= totalCount);
 							}
+							self.endPullupToRefresh((pageIndex * pageCount) >= totalCount);
 						},300)
 				      }
 				   }
@@ -65,6 +73,7 @@
 			});
 			
 			mui.plusReady(function() {
+				var state = himall.getState();
 				var w=plus.nativeUI.showWaiting('',{padlock:true});
 				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
 				
@@ -78,6 +87,7 @@
 						type:'post',
 						timeout:10000,
 						success:function(data){
+							w.close();
 							if(data.success){
 								totalCount = data.page.Total;
 								pageIndex = data.page.PageNo;
@@ -88,6 +98,9 @@
 									for (var i = 0; i < orders.length; i++ ) {
 										var order = orders[i];
 										str += '<li>';
+										if (isApprover()) {
+											str += '<div class="mui-checkbox"><input name="s-checkOne" type="checkbox" class="s-checkOne" value="' + order.Id + '"/></div>';
+										}
 										str += '<div class="mui-clearfix"><strong class="mui-pull-left">' + order.ProductName+ '</strong><span class="mui-pull-right price">￥' + order.OrderAmount.toFixed(2)  + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">订单号</span><span class="mui-pull-right value">' + order.Id + '</span></div>';
 										str += '<div class="mui-clearfix order-date"><span class="mui-pull-left title">下单时间</span><span class="mui-pull-right value">' + order.OrderDate + '</span></div>';
@@ -95,14 +108,33 @@
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">现金支付</span><span class="mui-pull-right value">' + order.CashAmount.toFixed(2)  + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">红包支付</span><span class="mui-pull-right value">' + order.CreditAmount.toFixed(2)  + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">状态</span><span class="mui-pull-right price">' + order.OrderStatusText + '</span></div>';
+										str += '<div class="mui-clearfix"><a class="order-detail mui-pull-left" order-id="' + order.Id + '">订单详情</a>';
+										if (isSeller() && order.OrderStatusText == '未确认') {
+											str +='<a class="cancel-order mui-pull-left" order-id="' + order.Id + '">撤销订单</a>';
+										}
+										
+										if (isApprover()) {
+											if (isAgent() && order.OrderStatusText == '已确认') {
+												str +='<a class="deny-order mui-pull-right" order-id="' + order.Id + '">审核驳回</a>';
+												str +='<a class="approve-order mui-pull-right" order-id="' + order.Id + '">审核通过</a>';
+											} else if (isSuperVisor() && order.OrderStatusText == '代理审核') {
+												str +='<a class="deny-order mui-pull-right" order-id="' + order.Id + '">审核驳回</a>';
+												str +='<a class="approve-order mui-pull-right" order-id="' + order.Id + '">审核通过</a>';
+											} else if (isFinancial() && order.OrderStatusText == '市场审核') {
+												str +='<a class="deny-order mui-pull-right" order-id="' + order.Id + '">审核驳回</a>';
+												str +='<a class="approve-order mui-pull-right" order-id="' + order.Id + '">审核通过</a>';
+											}
+										}
+										str += '</div>';
 										str += '</li>';
 									}
 								} else {
 									str = '';
 								}
 								document.getElementById('orderOfflineList').innerHTML=str;
-								w.close();
+								
 								document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
+								document.getElementsByClassName("cart-bottom")[0].className="cart-bottom";
 							}
 						},
 						error:function(xhr,type,errorThrown){
@@ -114,8 +146,164 @@
 				
 				loadPage();
 				
+				if (isApprover()) {
+					document.getElementById('section-approve').style.display = '';
+					document.getElementById('orderOfflineList').className ="order-offline-list order-offline-approve-list";
+				}
+			});
+			
+			//select all
+			mui("#section-approve").on('tap', '#s-checkAll', function () {
+				var checkboxes = document.getElementsByName('s-checkOne');
+				var self = this;
+				_.each(checkboxes, function (checkbox) {
+					checkbox.checked = !self.checked;
+				});
+			});
+			
+			//approve all
+			mui("#section-approve").on('tap', '#submitCart', function(){
+				var checkboxes = document.getElementsByName('s-checkOne');
+				var selectedOrders = [];
+				var selectedItems = _.each(checkboxes, function (checkbox) {
+					if (checkbox.checked) {
+						selectedOrders.push(checkbox.value);
+					}
+				});
+				
+				if (selectedItems.length > 0) {
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					mui.ajax(URL+'api/OfflineOrder/AuditOrder',{
+						data: JSON.stringify(selectedOrders),
+						dataType:'json',
+						contentType:'application/json',
+						type:'POST',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.success==true){
+								plus.nativeUI.toast('订单审核成功');
+								orders = [];
+								pageIndex = 1;
+								loadPage();
+							}else{
+								plus.nativeUI.toast(data.msg);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							plus.nativeUI.toast('保存失败，请检查网络')
+						}
+					});
+				}
 				
 			});
+			
+			//订单详情
+			mui('.order-offline-list').on('tap', '.order-detail', function () {
+				localStorage.setItem('orderId',this.getAttribute('order-id'));
+				himall.openVW('order-offline-detail.html');
+			});
+			
+			//撤销订单
+			mui('.order-offline-list').on('tap', '.cancel-order', function () {
+				var orderId = this.getAttribute('order-id')
+				mui.prompt('请输入备注后，点击确认','备注','撤销订单',['确认','取消'], function (result) {
+					if (result.index == 0 && result.value.length > 0) {
+						var w=plus.nativeUI.showWaiting('',{padlock:true});
+						mui.ajax(URL+'api/OfflineOrder/CancelOrder?id='+ orderId + '&remark='+result.value,{
+							data:JSON.stringify({
+							}),
+							dataType:'json',
+							contentType:'application/json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								w.close();
+								if(data.success==true){
+									plus.nativeUI.toast('线下订单撤销成功');
+									orders = [];
+									pageIndex = 1;
+									loadPage();
+								}else{
+									plus.nativeUI.toast(data.msg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								w.close();
+								plus.nativeUI.toast('保存失败，请检查网络');
+							}
+						});
+					} else if (result.index == 0 && result.value.length == 0) {
+						plus.nativeUI.toast('撤销订单失败，请输入备注');
+					}
+				},'div');
+			});
+			
+			
+			//审核通过
+			mui('.order-offline-list').on('tap', '.approve-order', function () {
+				var orderId = this.getAttribute('order-id')
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/OfflineOrder/AuditOrder',{
+					data: JSON.stringify([orderId]),
+					dataType:'json',
+					contentType:'application/json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.success==true){
+							plus.nativeUI.toast('订单审核成功');
+							orders = [];
+							pageIndex = 1;
+							loadPage();
+						}else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('审核失败，请检查网络')
+					}
+				});
+			});
+			
+			//审核驳回
+			mui('.order-offline-list').on('tap', '.deny-order', function () {
+				mui.prompt('请输入备注后，点击确认','备注','驳回订单',['确认','取消'], function (result) {
+					if (result.index == 0 && result.value.length > 0) {
+						var w=plus.nativeUI.showWaiting('',{padlock:true});
+						mui.ajax(URL+'api/OfflineOrder/Rejectorder?id='+ orderId + '&remark='+result.value,{
+							data:JSON.stringify({
+							}),
+							dataType:'json',
+							contentType:'application/json',
+							type:'POST',
+							timeout:10000,
+							success:function(data){
+								w.close();
+								if(data.success==true){
+									plus.nativeUI.toast('线下订单驳回成功');
+									orders = [];
+									pageIndex = 1;
+									loadPage();
+								}else{
+									plus.nativeUI.toast(data.msg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								w.close();
+								plus.nativeUI.toast('保存失败，请检查网络');
+							}
+						});
+					} else if (result.index == 0 && result.value.length == 0) {
+						plus.nativeUI.toast('驳回订单失败，请输入备注');
+					}
+				},'div');
+			});
+			
+			//approve one 
 			
 			document.addEventListener('updateData', function() {
 				pageIndex = 1;
@@ -123,6 +311,55 @@
 				loadPage();
 			});
 			
+			function isSeller() {
+				var state = himall.getState();
+				if (state.roles && state.roles.length) {
+					return _.any(state.roles, function (role){
+						return role == '商家';
+					});
+				}
+				return false;
+			}
+			
+			function isApprover() {
+				var state = himall.getState();
+				if (state.roles && state.roles.length) {
+					return _.any(state.roles, function (role){
+						return role == '区县代理' || role == '市场监察'  || role == '财务人员' ;
+					});
+				}
+				return false;
+			}
+			
+			function isSuperVisor() {
+				var state = himall.getState();
+				if (state.roles && state.roles.length) {
+					return _.any(state.roles, function (role){
+						return role == '市场监察';
+					});
+				}
+				return false;
+			}
+			
+			function isAgent() {
+				var state = himall.getState();
+				if (state.roles && state.roles.length) {
+					return _.any(state.roles, function (role){
+						return role == '区县代理' ;
+					});
+				}
+				return false;
+			}
+			
+			function isFinancial() {
+				var state = himall.getState();
+				if (state.roles && state.roles.length) {
+					return _.any(state.roles, function (role){
+						return role == '财务人员' ;
+					});
+				}
+				return false;
+			}
 			
 		</script>
 	</body>

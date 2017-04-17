@@ -159,7 +159,7 @@
 						this.value = commisionAmount;
 						document.getElementById('redCommissionAmount').value = '0.00';
 					} else {
-						document.getElementById('redCommissionAmount').value = ((commisionAmount - cashCommissionAmount) * 85 / 100).toFixed(2);
+						document.getElementById('redCommissionAmount').value =  (Math.floor(((parseFloat(commisionAmount) - parseFloat(cashCommissionAmount))/0.85)*100)/100).toFixed(2);
 					}
 				}, false);
 				//load seller info

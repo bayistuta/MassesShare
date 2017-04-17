@@ -6,14 +6,14 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="format-detection" content="telephone=no,email=no" />
-		<title>审核订单</title>
+		<title>线下订单</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">审核订单</h1>
+			<h1 class="mui-title">线下订单</h1>
 		</header>
 		
 		<script src="js/mui.min.js"></script>
@@ -25,8 +25,8 @@
 				doubletap:true
 			},
 			subpages:[{
-				url:'order-offline-approve.html',
-				id:'order-offline-approve.html',
+				url:'order-offline-confirm.html',
+				id:'order-offline-confirm.html',
 				styles:{
 					top: '45px',
 					bottom: '0px',
@@ -45,7 +45,6 @@
 				contentWebview.evalJS('mui.scrollTo(0, 100)');
 			}
 		});
-		
 		</script>
 	</body>
 

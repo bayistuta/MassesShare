@@ -833,3 +833,25 @@ p img { max-width: 100%; height: auto; }
     width: 24px;
     height: 24px;
  }
+
+#approvePopover {
+	top: 20%;
+	left: calc(50% - 140px);
+}
+.order-detail{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;}
+.order-detail span{ font-size: 12px;}
+.order-detail:active{color: #FFFFFF;background: #4b6efb;}
+
+.approve-order{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;}
+.approve-order span{ font-size: 12px;}
+.approve-order:active{color: #FFFFFF;background: #4b6efb;}
+
+.cancel-order{ background: #E3393C;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;margin-left: 15px;}
+.cancel-order span{ font-size: 12px;}
+.cancel-order:active{color: #FFFFFF;background: #4b6efb;}
+
+.deny-order{ background: #E3393C;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;margin-left: 15px;}
+.deny-order span{ font-size: 12px;}
+.deny-order:active{color: #FFFFFF;background: #4b6efb;}
+
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{color:#3e7fd2}

@@ -33,7 +33,7 @@ var URL='http://120.77.80.215/',
 			success:function(data){
 				waitLogin.close();
 				if(data.Success=="true"){
-					return app.createState(loginInfo.account,data.UserId, callback);
+					return app.createState(loginInfo.account,data.UserId, data.Roles, callback);
 				}else{
 					callback('用户名或密码错误');
 				}
@@ -45,10 +45,11 @@ var URL='http://120.77.80.215/',
 		});
 	};
 
-	app.createState = function(name,userId, callback) {
+	app.createState = function(name,userId, roles, callback) {
 		var state = app.getState();
 		state.account = name;
 		state.userId = userId;
+		state.roles = roles;
 		state.token = "token123456789";
 		app.setState(state);
 		return callback();

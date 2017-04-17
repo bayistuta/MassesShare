@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>订单详情</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.listpicker.css" rel="stylesheet" />
+    	<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="order-offline-list" id="orderOfflineList">
+					
+			</ul>
+			<div class="form-list">
+				<ul id='approveList'>
+                    
+				</ul>
+				
+			</div>
+		</div>
+		<script src="js/lodash.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.listpicker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var orderId = localStorage.getItem('orderId');
+			mui.plusReady(function() {
+				
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/offlineorder/view?id='+orderId,{
+						data: {
+							
+						},
+						dataType:'json',
+						type:'POST',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.success){
+								var str = '';
+								var order =data.data;
+								str += '<li>';
+								str += '<div class="mui-clearfix"><strong class="mui-pull-left">' + order.ProductName+ '</strong><span class="mui-pull-right price">￥' + order.OrderAmount.toFixed(2)  + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">订单号</span><span class="mui-pull-right value">' + order.Id + '</span></div>';
+								str += '<div class="mui-clearfix order-date"><span class="mui-pull-left title">下单时间</span><span class="mui-pull-right value">' + order.OrderDate + '</span></div>';
+								
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">店铺名称</span><span class="mui-pull-right value">' + order.ShopName + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">买家账号</span><span class="mui-pull-right value">' + order.UserName + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">数量</span><span class="mui-pull-right value">' + order.ProductCount + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">支付方式</span><span class="mui-pull-right value">' + order.PayModeText + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">现金支付</span><span class="mui-pull-right value">' + order.CashAmount.toFixed(2)  + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">平台服务费</span><span class="mui-pull-right value">' + order.CommissionAmount.toFixed(2)  + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">现金支付服务费</span><span class="mui-pull-right value">' + order.CashcommissionAmount.toFixed(2)  + '</span></div>';
+								str += '<div class="mui-clearfix"><span class="mui-pull-left title">红包支付服务费</span><span class="mui-pull-right value">' + order.RedcommissionAmount.toFixed(2)  + '</span></div>';
+								str += '</li>';
+								document.getElementById('orderOfflineList').innerHTML=str;
+								
+								
+								document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
+							} else {
+								plus.nativeUI.toast(data.msg);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							//reloadWvLoad();
+						}
+					});
+			});
+			
+		</script>
+	</body>
+
+</html>

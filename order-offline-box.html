@@ -6,17 +6,17 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="format-detection" content="telephone=no,email=no" />
-		<title>线下订单</title>
+		<title>报单中心</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">线下订单</h1>
-			<a class="mui-pull-right mui-btn-link addOfflineOrder">我要报单</a>
+			<h1 class="mui-title">报单中心</h1>
+			<a class="mui-pull-right mui-btn-link addOfflineOrder" id='addOfflineOrder' style="display: none;">我要报单</a>
 		</header>
-		
+		<script src="js/lodash.min.js"></script>
 		<script src="js/mui.min.js"></script>
 		<script src="js/app.js"></script>
 		<script>
@@ -49,6 +49,18 @@
 		
 		mui('body').on('tap', '.addOfflineOrder', function() {
 			himall.openVW('order-offline-add.html');
+		});
+		
+		mui.plusReady(function() {
+			var state = himall.getState();
+			if (state.roles && state.roles.length) {
+				var isSeller = _.any(state.roles, function (role){
+					return role == '商家';
+				});
+				if (isSeller) {
+					document.getElementById('addOfflineOrder').style.display = '';
+				}
+			}
 		});
 		</script>
 	</body>

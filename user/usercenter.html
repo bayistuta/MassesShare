@@ -122,6 +122,15 @@
 				</ul>
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
 					<li class="mui-table-view-cell">
+						<a id="offlineOrder" class="mui-navigate-right"><span class="mui-icon iconfont icon-yaoqing"></span>线下订单</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a id="offlineOrderCenter" class="mui-navigate-right"><span class="mui-icon iconfont icon-address"></span>报单中心</a>
+					</li>
+				</ul>
+				
+				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
+					<li class="mui-table-view-cell">
 						<a id="showInvite" class="mui-navigate-right"><span class="mui-icon iconfont icon-yaoqing"></span>我要推广</a>
 					</li>
 					<li class="mui-table-view-cell">
@@ -237,7 +246,23 @@
 					    } else {
 					        showLogin({id:'merge-personal-list.html', url:'marketing/merge-personal-list.html'}, '/');
 					    }
-					})
+					});
+					
+					//offline order
+					doc.getElementById('offlineOrder').addEventListener('tap', function() {
+					    if(himall.isLogin()){
+							himall.openVW('order-offline-box-confirm.html', '../order-offline-box-confirm.html');
+						}else{
+							showLogin({id:'order-offline-box-confirm.html', url: 'order-offline-box-confirm.html'}, '/');
+						}
+					});
+					doc.getElementById('offlineOrderCenter').addEventListener('tap', function() {
+					    if(himall.isLogin()){
+							himall.openVW('order-offline-box.html', '../order-offline-box.html');
+						}else{
+							showLogin({id:'order-offline-box.html', url: 'order-offline-box.html'}, '/');
+						}
+					});
 				});
 			}(mui, document));
 			

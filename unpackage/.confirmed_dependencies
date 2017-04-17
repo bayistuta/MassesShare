@@ -471,7 +471,8 @@
 			"js/mui.min.js",
 			"js/app.js",
 			"images/a1.png",
-			"images/a2.png"
+			"images/a2.png",
+			"images/logo.png"
 		],
 		"refer": [],
 		"priority": 0
@@ -482,7 +483,8 @@
 			"css/mui.min.css",
 			"css/style.css",
 			"js/mui.min.js",
-			"js/app.js"
+			"js/app.js",
+			"images/invite_bg.png"
 		],
 		"refer": [],
 		"priority": 0
@@ -563,7 +565,9 @@
 			"user/user-invite.html",
 			"user/user-favshop.html",
 			"user/user-account.html",
-			"login.html"
+			"login.html",
+			"order-offline-box-confirm.html",
+			"order-offline-box.html"
 		],
 		"priority": 0
 	},
@@ -604,14 +608,18 @@
 			"js/mui.min.js",
 			"js/app.js",
 			"images/weixin.png",
-			"images/qq.png"
+			"images/qq.png",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"forget-password.html",
 			"user/usercenter.html",
 			"bind-login.html",
 			"reg.html",
-			"cart-box.html"
+			"cart-box.html",
+			"order-offline-box-confirm.html",
+			"user/user-invite.html",
+			"order-offline-box.html"
 		],
 		"priority": 0
 	},
@@ -734,7 +742,8 @@
 			"js/app.js",
 			"home.html",
 			"fonts/mui.ttf",
-			"fonts/iconfont.ttf"
+			"fonts/iconfont.ttf",
+			"js/lodash.min.js"
 		],
 		"refer": [
 			"vshop/vshop-detail.html",
@@ -748,7 +757,8 @@
 			"cart-box.html",
 			"order-offline.html",
 			"order-offline-box.html",
-			"order-offline-box-approve.html"
+			"order-offline-box-approve.html",
+			"order-offline-box-confirm.html"
 		],
 		"priority": 0
 	},
@@ -758,7 +768,12 @@
 			"js/delayimg.min.js",
 			"js/mui.min.js",
 			"css/mui.min.css",
-			"css/style.css"
+			"css/style.css",
+			"fonts/mui.ttf",
+			"js/lodash.min.js"
+		],
+		"refer": [
+			"order-offline-detail.html"
 		]
 	},
 	"order-offline-box.html": {
@@ -768,11 +783,14 @@
 			"fonts/mui.ttf",
 			"cart.html",
 			"css/mui.min.css",
-			"css/style.css"
+			"css/style.css",
+			"order-offline.html",
+			"js/lodash.min.js"
 		],
 		"refer": [
 			"cart.html",
-			"order-offline.html"
+			"order-offline.html",
+			"order-offline-add.html"
 		]
 	},
 	"order-offline-box-approve.html": {
@@ -795,7 +813,75 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css",
+			"css/style.css",
+			"js/lodash.min.js"
+		],
+		"refer": [
+			"order-offline-approve-single.html"
+		]
+	},
+	"order-offline-approve-single.html": {
+		"resources": [
+			"css/mui.listpicker.css",
+			"css/mui.poppicker.css",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/lodash.min.js",
+			"js/mui.poppicker.js",
+			"js/mui.listpicker.js"
+		]
+	},
+	"order-offline-box-confirm.html": {
+		"resources": [
+			"order-offline-confirm.html",
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
 			"css/style.css"
+		],
+		"refer": [
+			"order-offline-confirm.html"
+		]
+	},
+	"order-offline-confirm.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/lodash.min.js",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"order-offline-detail.html"
+		]
+	},
+	"order-offline-detail.html": {
+		"resources": [
+			"js/mui.poppicker.js",
+			"js/mui.listpicker.js",
+			"fonts/mui.ttf",
+			"css/mui.listpicker.css",
+			"css/mui.poppicker.css"
+		]
+	},
+	"order-offline-add.html": {
+		"resources": [
+			"js/mui.poppicker.js",
+			"js/mui.listpicker.js",
+			"css/mui.listpicker.css",
+			"js/Region.js",
+			"css/mui.poppicker.css",
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/lodash.min.js"
 		]
 	}
 }

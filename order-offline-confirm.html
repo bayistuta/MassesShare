@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>线下订单子页面</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div id="approvePopover" class="mui-popover">
+				<div class="form-list">
+					<ul>
+					  	<li class="input-in">
+					  		<span class="f-l">审核结果</span>
+					  		<span class="f-r">
+					  		<select id="selectApprove">
+				                <option value="">请选择</option>
+				                <option value="1">通过</option>
+				                <option value="2">驳回</option>
+				             </select>
+					  		</span>
+					  	</li>
+					  	<li class="input-in">
+					  		<span class="f-l">备注</span>
+					  		<span class="f-r">
+					  		<input type="text" id="comment" value="" class="input" placeholder="输入备注"/>
+					  		</span>
+					  	</li>
+					  	<li class="certification"><a id="approveOneClick" class="btn">确认审核</a></li>
+				    </ul>
+				</div>
+			  
+			</div>
+			<div class="mui-scroll">
+				<ul class="order-offline-confirm-list order-offline-list" id="orderOfflineList">
+					
+				</ul>
+			</div>	
+		</div>
+		<!--
+		<div class="cart-bottom transparent">
+			<div class="mui-checkbox mui-left">
+				<label>全选</label>
+				<input name="s-checkAll" id="s-checkAll" type="checkbox">
+			</div>
+			<a class="submit-cart" id="submitCart">一键确认</a>
+		</div>
+		-->
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/lodash.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var loadPage;
+			var pageIndex = 1;
+			var pageCount = 5;
+			var totalCount = 0;
+			var orders = [];
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    down : {
+						contentdown : "下拉可以刷新",
+						contentover : "释放立即刷新",
+						contentrefresh : "正在刷新...",
+						callback :function(){
+							setTimeout(function(){
+								pageIndex = 1;
+								orders = [];
+								loadPage();
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							},300)
+						}
+				    },
+					up : {
+				      height:50,
+				      auto:true,
+				      contentrefresh : "正在加载...",
+				      contentnomore:'没有更多数据了',
+				      callback : function() {
+				      	var self = this;
+				      	setTimeout(function(){
+							if (pageIndex * pageCount < totalCount) {
+								pageIndex += 1;
+								loadPage();
+							}
+							self.endPullupToRefresh((pageIndex * pageCount) >= totalCount);
+						},300)
+				      }
+				   }
+				},
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				
+				loadPage=function(){
+					mui.ajax(URL+'api/offlineorder/myorderlist',{
+						data: {
+							pageNo: pageIndex,
+							pageSize: pageCount,
+						},
+						dataType:'json',
+						type:'post',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.success){
+								totalCount = data.page.Total;
+								pageIndex = data.page.PageNo;
+								pageCount = data.page.PageSize;
+								if (data.data.length > 0) {
+									orders = orders.concat(data.data);
+									var str = '';
+									for (var i = 0; i < orders.length; i++ ) {
+										var order = orders[i];
+										str += '<li>';
+										//str += '<div class="mui-checkbox"><input name="s-checkOne" type="checkbox" class="s-checkOne" value="' + order.Id + '"/></div>';
+										str += '<div class="mui-clearfix"><strong class="mui-pull-left">' + order.ProductName+ '</strong><span class="mui-pull-right price">￥' + order.OrderAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">订单号</span><span class="mui-pull-right value">' + order.Id + '</span></div>';
+										str += '<div class="mui-clearfix order-date"><span class="mui-pull-left title">下单时间</span><span class="mui-pull-right value">' + order.OrderDate + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">数量</span><span class="mui-pull-right value">' + order.ProductCount + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">现金支付</span><span class="mui-pull-right value">' + order.CashAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">红包支付</span><span class="mui-pull-right value">' + order.CreditAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">状态</span><span class="mui-pull-right price">' + order.OrderStatusText + '</span></div>';
+										str += '<div class="mui-clearfix"><a class="order-detail mui-pull-left" order-id="' + order.Id + '">订单详情</a>';
+										if (order.OrderStatusText == '未确认') {
+											str +='<a class="approve-order mui-pull-right" order-id="' + order.Id + '">确认订单</a>';
+										}
+										str += '</div>';
+										str += '</li>';
+									}
+								} else {
+									str = '';
+								}
+								document.getElementById('orderOfflineList').innerHTML=str;
+								document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
+								//document.getElementsByClassName("cart-bottom")[0].className="cart-bottom";
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							//reloadWvLoad();
+						}
+					});
+				}
+				
+				loadPage();
+				/*
+				document.getElementById("s-checkAll").addEventListener('change', function () {
+					var checkboxes = document.getElementsByName('s-checkOne');
+					var self = this;
+					_.each(checkboxes, function (checkbox) {
+						checkbox.checked = self.checked;
+					});
+				});
+				
+				document.getElementById('submitCart').addEventListener('tap',function(){
+					var checkboxes = document.getElementsByName('s-checkOne');
+					var selectedOrders = [];
+					var selectedItems = _.each(checkboxes, function (checkbox) {
+						if (checkbox.checked) {
+							selectedOrders.push(checkbox.value);
+						}
+					});
+					
+					
+					var w=plus.nativeUI.showWaiting('',{padlock:true});
+					mui.ajax(URL+'api/OfflineOrder/AuditOrder',{
+						data: JSON.stringify(selectedOrders),
+						dataType:'json',
+						contentType:'application/json',
+						type:'POST',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.success==true){
+								plus.nativeUI.toast('订单审核成功');
+								orders = [];
+								pageIndex = 1;
+								loadPage();
+							}else{
+								plus.nativeUI.toast(data.msg);
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							plus.nativeUI.toast('保存失败，请检查网络')
+						}
+					});
+					if (selectedItems && selectedItems.length) {
+						mui('#approvePopover').popover('show');
+					}
+				});
+				*/
+				
+				document.getElementById('approveOneClick').addEventListener('tap',function(){
+					var approve = document.getElementById('selectApprove').value;
+					var commentText = document.getElementById('comment').value;
+					if (approve == '') {
+						plus.nativeUI.toast('请选择审核结果');
+						return false;
+					}
+					if (approve == '2' && commentText.length == 0) {
+						plus.nativeUI.toast('审核驳回时请输入备注');
+						return false;
+					}
+					
+				});
+				//确认订单
+				mui('.order-offline-list').on('tap', '.approve-order', function () {
+					var orderId = this.getAttribute('order-id')
+					mui.prompt('请输入支付密码后，点击确认','支付密码','确认订单',['确认','取消'], function (result) {
+						if (result.index == 0 && result.value.length > 0) {
+							var w=plus.nativeUI.showWaiting('',{padlock:true});
+							mui.ajax(URL+'api/OfflineOrder/ConfirmOrder?id='+ orderId + '&payPwd='+result.value,{
+								data:JSON.stringify({
+								}),
+								dataType:'json',
+								contentType:'application/json',
+								type:'POST',
+								timeout:10000,
+								success:function(data){
+									w.close();
+									if(data.success==true){
+										plus.nativeUI.toast('线下订单确认成功');
+										orders = [];
+										pageIndex = 1;
+										loadPage();
+									}else{
+										plus.nativeUI.toast(data.msg);
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									w.close();
+									plus.nativeUI.toast('保存失败，请检查网络')
+								}
+							});
+						} else if (result.index == 0 && result.value.length == 0) {
+							plus.nativeUI.toast('确认订单失败，请输入支付密码');
+						}
+					},'div');
+				});
+			
+				//取消订单
+				mui('.order-offline-list').on('tap', '.cancel-order', function () {
+					var orderId = this.getAttribute('order-id')
+					mui.prompt('请输入备注后，点击确认','备注','撤销订单',['确认','取消'], function (result) {
+						if (result.index == 0 && result.value.length > 0) {
+							var w=plus.nativeUI.showWaiting('',{padlock:true});
+							mui.ajax(URL+'api/OfflineOrder/CancelOrder?id='+ orderId + '&remark='+result.value,{
+								data:JSON.stringify({
+								}),
+								dataType:'json',
+								contentType:'application/json',
+								type:'POST',
+								timeout:10000,
+								success:function(data){
+									w.close();
+									if(data.success==true){
+										plus.nativeUI.toast('线下订单撤销成功');
+										orders = [];
+										pageIndex = 1;
+										loadPage();
+									}else{
+										plus.nativeUI.toast(data.msg);
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									w.close();
+									plus.nativeUI.toast('保存失败，请检查网络');
+								}
+							});
+						} else if (result.index == 0 && result.value.length == 0) {
+							plus.nativeUI.toast('撤销订单失败，请输入备注');
+						}
+					},'div');
+				});
+			
+				//订单详情
+				mui('.order-offline-list').on('tap', '.order-detail', function () {
+					localStorage.setItem('orderId',this.getAttribute('order-id'));
+					himall.openVW('order-offline-detail.html');
+				});
+			});
+			
+			document.addEventListener('updateData', function() {
+				pageIndex = 1;
+				orders = [];
+				loadPage();
+			});
+			
+			
+		</script>
+	</body>
+</html>
