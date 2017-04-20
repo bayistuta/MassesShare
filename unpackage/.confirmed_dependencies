@@ -550,7 +550,9 @@
 			"js/app.js",
 			"images/default-photo.png",
 			"fonts/mui.ttf",
-			"fonts/iconfont.ttf"
+			"fonts/iconfont.ttf",
+			"js/lodash.min.js",
+			"fonts/iconfont2.ttf"
 		],
 		"refer": [
 			"user/address.html",
@@ -619,7 +621,8 @@
 			"cart-box.html",
 			"order-offline-box-confirm.html",
 			"user/user-invite.html",
-			"order-offline-box.html"
+			"order-offline-box.html",
+			"order-list.html"
 		],
 		"priority": 0
 	},
@@ -832,7 +835,8 @@
 			"js/lodash.min.js",
 			"js/mui.poppicker.js",
 			"js/mui.listpicker.js"
-		]
+		],
+		"refer": []
 	},
 	"order-offline-box-confirm.html": {
 		"resources": [
@@ -867,7 +871,8 @@
 			"fonts/mui.ttf",
 			"css/mui.listpicker.css",
 			"css/mui.poppicker.css"
-		]
+		],
+		"refer": []
 	},
 	"order-offline-add.html": {
 		"resources": [
@@ -882,6 +887,7 @@
 			"css/mui.min.css",
 			"css/style.css",
 			"js/lodash.min.js"
-		]
+		],
+		"refer": []
 	}
 }

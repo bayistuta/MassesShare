@@ -1,5 +1,7 @@
 @font-face {font-family: "iconfont";src: url('../fonts/iconfont.ttf') format('truetype');}
+@font-face {font-family: "iconfont2";src: url('../fonts/iconfont2.ttf') format('truetype');}
 .iconfont {font-family:"iconfont" !important;font-size:16px;font-style:normal;-webkit-font-smoothing: antialiased;}
+.iconfont2 {font-family:"iconfont2" !important;font-size:16px;font-style:normal;-webkit-font-smoothing: antialiased;}
 
 .icon-user:before { content: "\e600"; }
 .icon-address:before { content: "\e601"; }
@@ -31,6 +33,14 @@
 .icon-ensure:before { content: "\e618"; }
 .icon-pintuan:before { content: "\e61c"; }
 
+.icon-wodedingdan:before { content: "\e652"; }
+.icon-balance:before { content: "\e636"; }
+.icon-hongbao:before { content: "\e622"; }
+.icon-yeji:before { content: "\e686"; }
+.icon-dingdanzhongxin:before { content: "\e604"; }
+.icon-daikuan:before { content: "\e60a"; }
+.icon-xiaofei:before { content: "\e625"; }
+
 footer .mui-bar-tab .mui-tab-item .mui-icon{ font-size: 20px; width: 20px; height: 20px; padding-top: 3px;}
 body{ font-size: 14px; /*font-family:'microsoft yahei';*/}
 a{ color: #666;}
@@ -44,10 +54,7 @@ li{list-style: none;}
 .cl:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; overflow: hidden }
 .mui-content{min-height: 400px; padding-top: 1px; transition: opacity ease-in-out .4s;}
 .mui-scroll{min-height: 100%;}
-.mui-bar.mui-bar-nav{background: -webkit-linear-gradient(120deg,#29bde8,#4183d7);
-    background: -o-linear-gradient(120deg,#29bde8,#4183d7);
-    background: -moz-linear-gradient(120deg,#29bde8,#4183d7);
-    background: linear-gradient(120deg,#29bde8,#4183d7); color: #fff; box-shadow: none;}
+.mui-bar.mui-bar-nav{background: #29bde8; color: #fff; box-shadow: none;}
 .mui-bar.mui-bar-nav .mui-title,.mui-bar.mui-bar-nav .mui-icon,.mui-bar.mui-bar-nav .mui-pull-right{color: #fff;}
 .mui-bar.mui-bar-nav .mui-btn-link{font-size: 14px;}
 .mui-input-row .mui-input-clear~.mui-icon-clear.mui-active, .mui-input-row .mui-input-password~.mui-icon-eye.mui-active, .mui-input-row .mui-input-speech~.mui-icon-speech.mui-active{ color: #E3393C;}
@@ -92,7 +99,7 @@ footer .mui-bar-tab{ background-color: #2a2a2e;}
 .mui-slider-img-content {position: absolute;bottom: 0;left: 0;right: 0;color:#fff;line-height: 22px; padding: 10px; background-color: rgba(0,0,0,.6);}
 .mui-pull{ font-weight: normal;}
 .mui-btn-danger:active{ color: #fff;}
-.mui-btn-blue{ background-color: #E3393C; border-color: #E3393C;}
+.mui-btn-blue{ background-color: #3e7fd2; border-color: #3e7fd2;}
 @-webkit-keyframes fadeIn {  0% {opacity: 0;} 100% { opacity: 1;}}
 @keyframes fadeIn {  0% { opacity: 0;} 100% { opacity: 1;}}
 @-webkit-keyframes fadeOut {  0% { opacity: 1;} 100% { opacity: 0;}}
@@ -379,9 +386,9 @@ p img { max-width: 100%; height: auto; }
 .category1{ height:100%; float:left; width:25%;background-color: #f3f3f3; position:relative;}
 .category1 ul{ }
 .category1 li{ width:100%; float:left;height: 44px;line-height: 44px;overflow:hidden; white-space: nowrap; text-overflow: ellipsis;padding: 0 10px;background-color: #f3f3f3;border-top: 1px solid #e5e5e5;font-size: 14px; position:relative;}
-.category1 li.cur{color:#e73641}
+.category1 li.cur{color:#3e7fd2}
 .category1 li.cur:before{ position:absolute; right:0; top:50%; margin-top:-5px; content:''; display:block;display: inline-block;border-width: 6px;border-color: transparent #fff transparent transparent;border-style: dashed solid dashed dashed;}
-.category1 li.cur:after{ position:absolute; left:0; top:0;content:''; display:block;border-left: 3px solid #E3393C; height: 100%;}
+.category1 li.cur:after{ position:absolute; left:0; top:0;content:''; display:block;border-left: 3px solid #29bde8; height: 100%;}
 .category2{ height:100%; float:right; width:75%; background-color:#fff; overflow-y: auto;position: relative; }
 .category2 dl{padding: 0 10px 0 10px; margin:0; min-height: 100%; overflow: hidden; width: 100%; position: relative; z-index: 2; background:#fff;}
 .category2 dt {padding-top: 5px;line-height: 2;color: #333; font-size:14px; font-weight:normal;}
@@ -855,3 +862,19 @@ p img { max-width: 100%; height: auto; }
 .deny-order:active{color: #FFFFFF;background: #4b6efb;}
 
 .mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{color:#3e7fd2}
+
+
+.mui-listpicker .mui-listpicker-item-selected {
+	color: 	#3e7fd2;
+}
+.mui-listpicker .mui-listpicker-rule {
+	background: #dfdfdf;
+}
+.mui-bar-tab .mui-tab-item.mui-active {
+	color: #007aff;
+}
+
+#userCapital {
+	background-color: #fff;
+    margin: 10px 0px 0px 0px;
+}

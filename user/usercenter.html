@@ -23,11 +23,11 @@
 			.mui-table-view .iconfont{ font-size: 20px;-webkit-text-stroke-width: 0.3px;}
 			.table-view-iconlist .iconfont{margin-right: 5px;}
 			.icon-top .iconfont{ position: relative; top: 2px;}
+			.mui-table-view .iconfont2{ font-size: 20px;-webkit-text-stroke-width: 0.3px;}
+			.table-view-iconlist .iconfont2{margin-right: 5px;}
+			.icon-top .iconfont2{ position: relative; top: 2px;}
 			.user-info{ padding: 1px 0 12px;
-			background: -webkit-linear-gradient(120deg,#29bde8,#4183d7);
-    background: -o-linear-gradient(120deg,#29bde8,#4183d7);
-    background: -moz-linear-gradient(120deg,#29bde8,#4183d7);
-    background: linear-gradient(120deg,#29bde8,#4183d7);color: #fff; text-align: center; margin-top: -1px; height: 160px;}
+			background: #29bde8;color: #fff; text-align: center; margin-top: -1px; height: 160px;}
 			.user-info img{ height: 70px; display:inline; border-radius: 100%;}
 			.user-info h3{ font-size: 16px; margin: 3px 0; position:relative; z-index: 3; line-height: 22px;}
 			.user-info ul{ position: relative;z-index: 2;}
@@ -37,6 +37,10 @@
 			.user-info ul li strong{font-size: 22px; font-weight: normal;}
 			.user-info ul li p{ color: #fff; margin: 0;}
 			.scroll-div{ top: 161px;}
+			#userCapital .mui-row {border-bottom: solid 1px #eee;}
+			.btn-charge{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 50px; line-height: 15px; display: inline-block;  font-size: 16px;}
+			.btn-charge span{ font-size: 12px;}
+			.btn-charge:active{color: #FFFFFF;background: #4b6efb;}
 		</style>
 	</head>
 
@@ -97,6 +101,56 @@
 					</li>
 					
 				</ul>
+				
+				<div id="userCapital" style="display: none;">
+				    <div class="mui-row">
+				        <div class="mui-col-xs-6">
+				            <li class="mui-table-view-cell">
+				            	<span class="mui-icon iconfont2 icon-balance"></span>
+				            	<span>余额</span>
+				            	<span id='balance'></span>
+				            </li>
+				        </div>
+				        <div class="mui-col-xs-6" style="height:43px;">
+				            <li class="mui-table-view-cell mui-text-right" style="height: 100%">
+				                <a class="btn-charge mui-btn"><span>充值</span></a>
+				            </li>
+				        </div>
+				    </div>
+				    <div class="mui-row">
+				        <div class="mui-col-xs-6">
+				            <li class="mui-table-view-cell" style="border-right:solid 1px #eee">
+				            	<span class="mui-icon iconfont2 icon-hongbao"></span>
+				            	<span>红包</span>
+				            	<span id='bonusAmount'></span>
+				            </li>
+				        </div>
+				        <div class="mui-col-xs-6">
+				            <li class="mui-table-view-cell">
+				            	<span class="mui-icon iconfont2 icon-daikuan"></span>
+				                <span>贷款</span>
+				            	<span id='goodsCash'></span>
+				            </li>
+				        </div>
+				    </div>
+				    <div class="mui-row">
+				        <div class="mui-col-xs-6">
+				            <li class="mui-table-view-cell" style="border-right:solid 1px #eee">
+				            	<span class="mui-icon iconfont2 icon-yeji"></span>
+				            	<span>业绩</span>
+				            	<span id='performance'></span>
+				            </li>
+				        </div>
+				        <div class="mui-col-xs-6">
+				            <li class="mui-table-view-cell">
+				            	<span class="mui-icon iconfont2 icon-xiaofei"></span>
+				                <span>累计消费</span>
+				            	<span id='totalConsumeAmount'></span>
+				            </li>
+				        </div>
+				    </div>
+				</div>
+				
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist">
 					<li class="mui-table-view-cell">
 						<a id="userCoupon" class="mui-navigate-right">
@@ -122,10 +176,10 @@
 				</ul>
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
 					<li class="mui-table-view-cell">
-						<a id="offlineOrder" class="mui-navigate-right"><span class="mui-icon iconfont icon-yaoqing"></span>线下订单</a>
+						<a id="offlineOrder" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-wodedingdan"></span>线下订单</a>
 					</li>
-					<li class="mui-table-view-cell">
-						<a id="offlineOrderCenter" class="mui-navigate-right"><span class="mui-icon iconfont icon-address"></span>报单中心</a>
+					<li class="mui-table-view-cell" id="offlineOrderCenterCell" style="display:none">
+						<a id="offlineOrderCenter" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-dingdanzhongxin"></span>报单中心</a>
 					</li>
 				</ul>
 				
@@ -153,6 +207,7 @@
 				<a style="margin: 15px;" id='login' class="custom-btn">登录</a>
 			</div>
 		</div>
+		<script src="../js/lodash.min.js"></script>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/app.js"></script>
 		<script>
@@ -174,6 +229,8 @@
 							window.scrollTo(0,0);
 							showLogin({},'/');
 						});
+					} else {
+						loadBalance();
 					}
 					
 					doc.getElementById('userCoupon').addEventListener('tap',function(){
@@ -275,6 +332,17 @@
 			
 			function getUserData(){
 				state = himall.getState();
+				if (state.roles && state.roles.length) {
+					var isShowOfflineCenter = _.any(state.roles, function (role) {
+						return role != '普通会员';
+					});
+					
+					if (isShowOfflineCenter) {
+						document.getElementById('offlineOrderCenterCell').style.display = '';
+					} else {
+						document.getElementById('offlineOrderCenterCell').style.display = 'none';
+					}
+				}
 				account.innerText = state.account;
 				document.getElementById('login').style.display='none';
 				document.getElementsByClassName('exit-box')[0].style.display='block';
@@ -307,6 +375,8 @@
 						}
 					}
 				});
+				
+				loadBalance();
 			}
 			
 			function showOrderList(id){
@@ -372,6 +442,25 @@
 				});
 			}, false);
 			
+			
+			function loadBalance() {
+				//用户资金数据
+				mui.ajax(URL+'api/UserCenter/GetUserCaptial/' + himall.getState().userId,{
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.success){
+							document.getElementById('balance').innerText = '￥' + data.data.Balance.toFixed(2);
+							document.getElementById('bonusAmount').innerText = '￥' + data.data.BonusAmount.toFixed(2);
+							document.getElementById('goodsCash').innerText = '￥' + data.data.GoodsCash.toFixed(2);
+							document.getElementById('performance').innerText = '￥' + data.data.Performance.toFixed(2);
+							document.getElementById('totalConsumeAmount').innerText = '￥' + data.data.TotalConsumeAmount.toFixed(2);
+							document.getElementById('userCapital').style.display = '';
+						}
+					}
+				});
+			}
 		</script>
 	</body>
 

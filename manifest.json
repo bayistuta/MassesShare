@@ -2,7 +2,7 @@
 	"id": "H5F8F04DB",
 	"name": "大圣旗舰商城",
 	"version": {
-		"name": "2.4.1",
+		"name": "2.4.2",
 		"code": "96"
 	},
 	"description": "大圣旗舰商城",
@@ -1193,7 +1193,9 @@
 					"images/merge-not.jpg",
 					"js/mui.min.js",
 					"js/app.js",
-					"images/default-photo.png"
+					"images/default-photo.png",
+					"js/lodash.min.js",
+					"fonts/iconfont2.ttf"
 				],
 				"refer": [
 					"user/address.html",
@@ -1299,7 +1301,8 @@
 					"cart-box.html",
 					"order-offline-box-confirm.html",
 					"user/user-invite.html",
-					"order-offline-box.html"
+					"order-offline-box.html",
+					"order-list.html"
 				],
 				"priority": 1
 			},
