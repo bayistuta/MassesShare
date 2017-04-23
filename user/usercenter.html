@@ -38,9 +38,12 @@
 			.user-info ul li p{ color: #fff; margin: 0;}
 			.scroll-div{ top: 161px;}
 			#userCapital .mui-row {border-bottom: solid 1px #eee;}
-			.btn-charge{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 50px; line-height: 15px; display: inline-block;  font-size: 16px;}
+			.btn-charge{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 50px; line-height: 15px; display: inline-block;  font-size: 16px; right:85px!important;}
 			.btn-charge span{ font-size: 12px;}
 			.btn-charge:active{color: #FFFFFF;background: #4b6efb;}
+			.btn-withdraw{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 50px; line-height: 15px; display: inline-block;  font-size: 16px;}
+			.btn-withdraw span{ font-size: 12px;}
+			.btn-withdraw:active{color: #FFFFFF;background: #4b6efb;}
 		</style>
 	</head>
 
@@ -112,8 +115,9 @@
 				            </li>
 				        </div>
 				        <div class="mui-col-xs-6" style="height:43px;">
-				            <li class="mui-table-view-cell mui-text-right" style="height: 100%">
-				                <a class="btn-charge mui-btn"><span>充值</span></a>
+				            <li class="mui-table-view-cell" style="height: 100%">
+				            		<a class="btn-withdraw mui-btn mui-pull-right"><span>提现</span></a>
+				                <a class="btn-charge mui-btn mui-pull-left"><span>充值</span></a>
 				            </li>
 				        </div>
 				    </div>
@@ -176,6 +180,12 @@
 				</ul>
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
 					<li class="mui-table-view-cell">
+                        <a id="myMember" class="mui-navigate-right">
+                            <span class="mui-icon iconfont2 icon-huiyuan"></span>
+                            <span class="mui-badge mui-badge-inverted"style="display: inline-block;"></span>我的会员
+                        </a>
+                    </li>
+					<li class="mui-table-view-cell">
 						<a id="offlineOrder" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-wodedingdan"></span>线下订单</a>
 					</li>
 					<li class="mui-table-view-cell" id="offlineOrderCenterCell" style="display:none">
@@ -192,6 +202,9 @@
 					</li>
 					<li class="mui-table-view-cell">
 						<a id="accountManagement" class="mui-navigate-right"><span class="mui-icon iconfont icon-account"></span>账号管理</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a id="myBankCard" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-bankcard"></span>我的银行卡</a>
 					</li>
 				</ul>
 				<ul class="mui-table-view mui-table-view-chevron">
@@ -318,6 +331,20 @@
 							himall.openVW('order-offline-box.html', '../order-offline-box.html');
 						}else{
 							showLogin({id:'order-offline-box.html', url: 'order-offline-box.html'}, '/');
+						}
+					});
+					doc.getElementById('myMember').addEventListener('tap', function() {
+					    if(himall.isLogin()){
+							himall.openVW('member-list-box.html');
+						}else{
+							showLogin({id:'member-list-box.html', url: 'user/member-list-box.html'}, '/');
+						}
+					});
+					doc.getElementById('myBankCard').addEventListener('tap', function() {
+					    if(himall.isLogin()){
+							himall.openVW('my-bank-box.html');
+						}else{
+							showLogin({id:'my-bank-box.html', url: 'user/my-bank-box.html'}, '/');
 						}
 					});
 				});
@@ -457,10 +484,19 @@
 							document.getElementById('performance').innerText = '￥' + data.data.Performance.toFixed(2);
 							document.getElementById('totalConsumeAmount').innerText = '￥' + data.data.TotalConsumeAmount.toFixed(2);
 							document.getElementById('userCapital').style.display = '';
+							sessionStorage.setItem('userCapital', JSON.stringify(data.data));
 						}
 					}
 				});
 			}
+			
+			mui('#userCapital').on('tap', '.btn-charge', function () {
+				himall.openVW('charge-list-box.html');
+			})
+			
+			mui('#userCapital').on('tap', '.btn-withdraw', function () {
+				himall.openVW('withdraw-list-box.html');
+			})
 		</script>
 	</body>
 

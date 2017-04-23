@@ -40,6 +40,9 @@
 .icon-dingdanzhongxin:before { content: "\e604"; }
 .icon-daikuan:before { content: "\e60a"; }
 .icon-xiaofei:before { content: "\e625"; }
+.icon-huiyuan:before { content: "\e601"; }
+.icon-bankcard:before { content: "\e61a"; }
+
 
 footer .mui-bar-tab .mui-tab-item .mui-icon{ font-size: 20px; width: 20px; height: 20px; padding-top: 3px;}
 body{ font-size: 14px; /*font-family:'microsoft yahei';*/}
@@ -877,4 +880,18 @@ p img { max-width: 100%; height: auto; }
 #userCapital {
 	background-color: #fff;
     margin: 10px 0px 0px 0px;
+}
+.with-draw-capital {
+	background-color: #fffff;
+	margin-bottom: 15px;
+	height: 60px;
+}
+.with-draw-capital > div {
+	float: left;
+	width: 33.33%;
+	text-align: center;
+	background-color: #fffff;
+}
+.with-draw-capital > div span {
+	display: block;
 }

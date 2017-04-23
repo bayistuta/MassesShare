@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>充值</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.listpicker.css" rel="stylesheet" />
+    		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">充值</h1>
+		</header>
+		<div class="mui-content">
+			<div class="form-list">
+				<ul>
+                    <li class="input-in"><span class="f-l">充值金额</span><span class="f-r"><input type="number" id="chargeAmount" value="" class="input" placeholder="输入充值金额"/></span></li>
+                    <li class="mui-table-view-cell" ><a id="showChargeMode" class="mui-navigate-right"><span class="f-l">充值方式</span><span class="f-r" id="chargeModeText">请选择充值方式</span><input type="hidden" value="" id="chargeModeId"/></a></li>
+                    <li class="certification"><a id="submitAds" class="btn">确认保存</a></li>
+				</ul>
+				
+			</div>
+		</div>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/mui.listpicker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var chargeModes = [{
+				text: '对公线下转账',
+				value: 1
+			},{
+				text: '个人线下转账',
+				value: 2
+			},{
+				text: '现金',
+				value: 3
+			}];
+			mui.plusReady(function() {
+				//load category
+				var chargeModePicker = new mui.PopPicker({
+				}); 
+				chargeModePicker.setData(chargeModes);
+				document.getElementById('showChargeMode').addEventListener('tap',function(){
+					var focus=document.querySelector(':focus');
+					if(focus)
+						focus.blur();
+					chargeModePicker.show(function(items) {
+						document.getElementById('chargeModeText').innerText = items[0].text;
+						document.getElementById('chargeModeId').value = items[0].value;
+					});
+				},false);
+			});
+			
+			document.getElementById('submitAds').addEventListener('tap',function(){
+				if(document.getElementById('chargeAmount').value==''){
+					plus.nativeUI.toast('请填写充值金额');
+					return false;
+				}
+				
+				if(document.getElementById('chargeModeId').value == ''){
+					plus.nativeUI.toast('请选择充值方式');
+					return false;
+				}
+				
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/Capital/AddReCharge?amount=' + document.getElementById('chargeAmount').value + '&chargeWay=' + document.getElementById('chargeModeId').value,{
+					data: {},
+					dataType:'json',
+					contentType:'application/json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.success==true){
+							plus.nativeUI.toast('充值记录提交成功');
+							mui.fire(plus.webview.getWebviewById('charge-list.html'),'updateData');
+							setTimeout(function(){
+								plus.webview.currentWebview().close();
+							},1000)
+						}else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('保存失败，请检查网络')
+					}
+				});
+			});
+			
+		</script>
+	</body>
+
+</html>

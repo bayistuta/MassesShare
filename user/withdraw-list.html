@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>提现记录子页面</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent">
+			<div class="mui-scroll">
+				<ul class="order-offline-list" id="orderOfflineList">
+					
+				</ul>
+			</div>	
+		</div>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/delayimg.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var loadPage;
+			var pageIndex = 1;
+			var pageCount = 5;
+			var totalCount = 0;
+			var withDraws = [];
+			mui.init({
+				pullRefresh : {
+				    container:'#pullrefresh',
+				    deceleration:0.0006,
+				    down : {
+						contentdown : "下拉可以刷新",
+						contentover : "释放立即刷新",
+						contentrefresh : "正在刷新...",
+						callback :function(){
+							setTimeout(function(){
+								pageIndex = 1;
+								withDraws = [];
+								loadPage();
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							},300)
+						}
+				    },
+					up : {
+				      height:50,
+				      auto:true,
+				      contentrefresh : "正在加载...",
+				      contentnomore:'没有更多数据了',
+				      callback : function() {
+				      	var self = this;
+				      	setTimeout(function(){
+							if (pageIndex * pageCount < totalCount) {
+								pageIndex += 1;
+								loadPage();
+							}
+							self.endPullupToRefresh((pageIndex * pageCount) >= totalCount);
+						},300)
+				      }
+				   }
+				},
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				var state = himall.getState();
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				
+				loadPage=function(){
+					mui.ajax(URL+'api/Capital/WithDrawList',{
+						data: {
+							pageNo: pageIndex,
+							pageSize: pageCount,
+						},
+						dataType:'json',
+						type:'post',
+						timeout:10000,
+						success:function(data){
+							w.close();
+							if(data.success){
+								totalCount = data.page.Total;
+								pageIndex = data.page.PageNo;
+								pageCount = data.page.PageSize;
+								if (data.data.length > 0) {
+									withDraws = withDraws.concat(data.data);
+									var str = '';
+									for (var i = 0; i < charges.length; i++ ) {
+										var withdraw = withDraws[i];
+										str += '<li>';
+										str += '<div class="mui-clearfix order-date"><span class="mui-pull-left">申请时间</span><span class="mui-pull-right">' + withdraw.ApplyTime  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">提现类型</span><span class="mui-pull-right value">' + withdraw.ApplyTypeDesc + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">提现金额</span><span class="mui-pull-right price">￥' + withdraw.ApplyAmount + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">手续费</span><span class="mui-pull-right price">￥' + withdraw.ApplyFee + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">完成时间</span><span class="mui-pull-right value">' + withdraw.ConfirmTime + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">状态</span><span class="mui-pull-right value">' + withdraw.ApplyStatusDesc + '</span></div>';
+										str += '</li>';
+									}
+								} else {
+									str = '';
+								}
+								document.getElementById('orderOfflineList').innerHTML=str;
+								
+								document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							w.close();
+							//reloadWvLoad();
+						}
+					});
+				}
+				
+				loadPage();
+			
+			});
+			
+			document.addEventListener('updateData', function() {
+				pageIndex = 1;
+				withDraws = [];
+				loadPage();
+			});
+
+			
+		</script>
+	</body>
+</html>

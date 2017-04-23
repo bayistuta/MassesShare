@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>绑定银行卡</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.listpicker.css" rel="stylesheet" />
+    		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定银行卡</h1>
+		</header>
+		<div class="mui-content">
+			<div class="form-list">
+				<ul>
+                    <li class="input-in" style="border-bottom: solid 1px #cfcfcf;"><span class="f-l">银行开户名</span><span class="f-r"><input type="text" id="accountName" value="" class="input" placeholder="输入开户名"/></span></li>
+                    <li class="input-in" style="margin-top:0px;"><span class="f-l">身份证号码</span><span class="f-r"><input type="text" id="idCardNo" value="" class="input" placeholder="输入身份证号"/></span></li>
+                    <li class="input-in" style="border-bottom: solid 1px #cfcfcf;"><span class="f-l">银行账号</span><span class="f-r"><input type="number" id="accountNo" value="" class="input" placeholder="输入银行账号"/></span></li>
+                    <li class="input-in" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">支行名称</span><span class="f-r"><input type="text" id="bankName" value="" class="input" placeholder="输入真实姓名"/></span></li>
+                    <li class="mui-table-view-cell" style="margin-top: 0px"><a id="showCity" class="mui-navigate-right"><span class="f-l">地区</span><span class="f-r" id="addressData">请选择地区</span></a></li>
+                    
+                    
+                    <li class="certification"><a id="submitAds" class="btn">确认保存</a></li>
+				</ul>
+				
+			</div>
+		</div>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/mui.listpicker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			
+			var regionId = '';
+			mui.plusReady(function() {
+				//load category
+				loadRegion(0);
+			});
+			
+			document.getElementById('submitAds').addEventListener('tap',function(){
+				if(document.getElementById('accountName').value ==''){
+					plus.nativeUI.toast('请填写账户名');
+					return false;
+				}
+				
+				if(document.getElementById('idCardNo').value ==''){
+					plus.nativeUI.toast('请填写身份证号码');
+					return false;
+				}
+				
+				if(document.getElementById('accountNo').value ==''){
+					plus.nativeUI.toast('请填写银行账号');
+					return false;
+				}
+				
+				if(document.getElementById('bankName').value ==''){
+					plus.nativeUI.toast('请填写开户行');
+					return false;
+				}
+				
+				if(regionId ==''){
+					plus.nativeUI.toast('请选择开户行所在地');
+					return false;
+				}
+				
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/Capital/BindBank',{
+					data:JSON.stringify({
+						BankName: document.getElementById('bankName').value, 
+					    AccountName: document.getElementById('accountName').value, 
+					    AccountNo: document.getElementById('accountNo').value, 
+					    RegionId: regionid,
+						IdCard: document.getElementById('idCardNo').value 
+					}),
+					dataType:'json',
+					contentType:'application/json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.success==true){
+							plus.nativeUI.toast('银行卡成功');
+							mui.fire(plus.webview.getWebviewById('my-bank.html'),'updateData');
+							setTimeout(function(){
+								plus.webview.currentWebview().close();
+							},1000)
+						}else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('保存失败，请检查网络')
+					}
+				});
+			});
+			
+			function loadRegion(regionId) {
+				mui.ajax(URL+'api/PublicOperation/GetRegion?parentId=' + regionId,{
+					data: {},
+					dataType:'json',
+					contentType:'application/json',
+					type:'GET',
+					timeout:10000,
+					success:function(data){
+						if(data.success==true){
+							
+						} else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.toast('保存失败，请检查网络')
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>提现</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.listpicker.css" rel="stylesheet" />
+    		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">提现</h1>
+		</header>
+		<div class="mui-content">
+			<div class="with-draw-capital">
+				<div>
+					<span>余额</span>
+					<span id="balance"></span>
+				</div>
+				<div>
+					<span>可提业绩</span>
+					<span id="performance"></span>
+				</div>
+				<div>
+					<span>贷款</span>
+					<span id="goodsCash"></span>
+				</div>
+			</div>
+			<div class="form-list">
+				<ul>
+                    <li class="mui-table-view-cell" style="margin-bottom:0px;" ><a id="showWithDrawMode" class="mui-navigate-right"><span class="f-l">提现类型</span><span class="f-r" id="withDrawModeText">请选择提现类型</span><input type="hidden" value="" id="withDrawModeId"/></a></li>
+                    <li class="input-in" style="border-bottom: solid 1px #cfcfcf;"><span class="f-l">提现金额</span><span class="f-r"><input type="number" id="withDrawAmount" value="" class="input" placeholder="请输入提现金额"/></span></li>
+                    <li class="input-in" id="lineFee" style="margin-top:0px;margin-bottom:0px;display:none"><span class="f-l">手续费</span><span class="f-r"><input type="number" id="applyFee" value="" class="input" placeholder="" readonly/></span></li>
+                    <li class="input-in" style=""><span class="f-l">备注</span><span class="f-r"><input type="text" id="remark" value="" class="input" placeholder="说点什么"/></span></li>
+                    <li class="certification"><a id="submitAds" class="btn">确认保存</a></li>
+				</ul>
+				
+			</div>
+		</div>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/mui.listpicker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var withDrawModes = [{
+				text: '余额',
+				value: 1
+			},{
+				text: '贷款',
+				value: 2
+			},{
+				text: '可提业绩',
+				value: 3
+			}];
+			mui.plusReady(function() {
+				//load category
+				var withDrawModePicker = new mui.PopPicker({
+				}); 
+				withDrawModePicker.setData(withDrawModes);
+				loadBalance();
+				document.getElementById('showWithDrawMode').addEventListener('tap',function(){
+					var focus=document.querySelector(':focus');
+					if(focus)
+						focus.blur();
+					withDrawModePicker.show(function(items) {
+						document.getElementById('withDrawModeText').innerText = items[0].text;
+						document.getElementById('withDrawModeId').value = items[0].value;
+						if (items[0].value == 1) {
+							document.getElementById('lineFee').style.display = '';
+						} else {
+							document.getElementById('lineFee').style.display = 'none';
+							document.getElementById('applyFee').value = 0.00;
+						}
+					});
+				},false);
+				document.getElementById('withDrawAmount').addEventListener('change', function () {
+					var withDrawAmount = this.value;
+					document.getElementById('applyFee').value = (withDrawAmount * 0.008).toFixed(2);
+				}, false);
+			});
+			
+			document.getElementById('submitAds').addEventListener('tap',function(){
+				if(document.getElementById('withDrawModeId').value == ''){
+					plus.nativeUI.toast('请选择提现类型');
+					return false;
+				}
+				
+				if(document.getElementById('withDrawAmount').value==''){
+					plus.nativeUI.toast('请填写充值金额');
+					return false;
+				}
+				
+				
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL+'api/Capital/AddWithDraw',{
+					data:JSON.stringify({
+						ApplyType: document.getElementById('withDrawModeId').value,
+						ApplyAmount: document.getElementById('withDrawAmount').value,
+						ApplyFee: document.getElementById('applyFee').value ,
+						Remark: document.getElementById('remark').value,
+					}),
+					dataType:'json',
+					contentType:'application/json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						w.close();
+						if(data.success==true){
+							plus.nativeUI.toast('提现请求提交成功');
+							mui.fire(plus.webview.getWebviewById('withdraw-list.html'),'updateData');
+							setTimeout(function(){
+								plus.webview.currentWebview().close();
+							},1000)
+						}else{
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('保存失败，请检查网络')
+					}
+				});
+			});
+			
+			function loadBalance() {
+				//用户资金数据
+				mui.ajax(URL+'api/UserCenter/GetUserCaptial/' + himall.getState().userId,{
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.success){
+							document.getElementById('balance').innerText = '￥' + data.data.Balance.toFixed(2);
+							document.getElementById('goodsCash').innerText = '￥' + data.data.GoodsCash.toFixed(2);
+							document.getElementById('performance').innerText = '￥' + data.data.UsablePerformance.toFixed(2);
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>
