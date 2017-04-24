@@ -88,15 +88,15 @@
 								if (data.data.length > 0) {
 									withDraws = withDraws.concat(data.data);
 									var str = '';
-									for (var i = 0; i < charges.length; i++ ) {
+									for (var i = 0; i < withDraws.length; i++ ) {
 										var withdraw = withDraws[i];
 										str += '<li>';
 										str += '<div class="mui-clearfix order-date"><span class="mui-pull-left">申请时间</span><span class="mui-pull-right">' + withdraw.ApplyTime  + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">提现类型</span><span class="mui-pull-right value">' + withdraw.ApplyTypeDesc + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">提现金额</span><span class="mui-pull-right price">￥' + withdraw.ApplyAmount + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">手续费</span><span class="mui-pull-right price">￥' + withdraw.ApplyFee + '</span></div>';
-										str += '<div class="mui-clearfix"><span class="mui-pull-left title">完成时间</span><span class="mui-pull-right value">' + withdraw.ConfirmTime + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">状态</span><span class="mui-pull-right value">' + withdraw.ApplyStatusDesc + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">完成时间</span><span class="mui-pull-right value">' + (withdraw.ConfirmTime || '') + '</span></div>';
 										str += '</li>';
 									}
 								} else {

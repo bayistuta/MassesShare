@@ -46,7 +46,7 @@
 			var regionId = '';
 			mui.plusReady(function() {
 				//load category
-				loadRegion(0);
+				loadRegion();
 			});
 			
 			document.getElementById('submitAds').addEventListener('tap',function(){
@@ -81,7 +81,7 @@
 						BankName: document.getElementById('bankName').value, 
 					    AccountName: document.getElementById('accountName').value, 
 					    AccountNo: document.getElementById('accountNo').value, 
-					    RegionId: regionid,
+					    RegionId: regionId,
 						IdCard: document.getElementById('idCardNo').value 
 					}),
 					dataType:'json',
@@ -91,7 +91,7 @@
 					success:function(data){
 						w.close();
 						if(data.success==true){
-							plus.nativeUI.toast('银行卡成功');
+							plus.nativeUI.toast('银行卡绑定成功');
 							mui.fire(plus.webview.getWebviewById('my-bank.html'),'updateData');
 							setTimeout(function(){
 								plus.webview.currentWebview().close();
@@ -107,25 +107,110 @@
 				});
 			});
 			
-			function loadRegion(regionId) {
-				mui.ajax(URL+'api/PublicOperation/GetRegion?parentId=' + regionId,{
+			function loadRegion() {
+				mui.ajax(URL+'api/PublicOperation/GetRegionAll',{
 					data: {},
 					dataType:'json',
 					contentType:'application/json',
 					type:'GET',
 					timeout:10000,
 					success:function(data){
-						if(data.success==true){
-							
-						} else{
-							plus.nativeUI.toast(data.msg);
-						}
+						if(data && data.length){
+							regions = loadProvinces(data);
+							var cityPicker3 = new mui.PopPicker({
+								layer: 3
+							}); 
+							cityPicker3.setData(regions);
+							document.getElementById('showCity').addEventListener('tap',function(){
+								var focus=document.querySelector(':focus');
+								if(focus)
+									focus.blur();
+								cityPicker3.show(function(items) {
+									document.getElementById('addressData').innerText = (items[0].text || '') + " " + (items[1].text || '') + " " + (items[2].text || '');
+									if (items[2].value!=null)
+										regionId=items[2].value;
+									else if (items[1].value!=null)
+										regionId=items[1].value;
+									else if (items[0].value!=null)
+										regionId=items[0].value;
+								});
+							},false);
+						} 
 					},
 					error:function(xhr,type,errorThrown){
 						plus.nativeUI.toast('保存失败，请检查网络')
 					}
 				});
 			}
+			
+			function loadProvinces(data) {
+				var provinces = [];
+				if (data && data.length) {
+					_.each(data, function (province) {
+						var item = {
+							text: province.Name,
+							value:province.Id
+						}
+						
+						if (province.City && province.City.length) {
+							item.children = loadCities(province.City);
+						}
+						provinces.push(item);
+					});
+				}
+				return provinces;
+			}
+			
+			function loadCities(data) {
+				var cities = [];
+				if (data && data.length) {
+					_.each(data, function (city) {
+						var item = {
+							text: city.Name,
+							value: city.Id
+						}
+						
+						if (city.County && city.County.length) {
+							item.children = loadCountries(city.County);
+						}
+						cities.push(item);
+					});
+				}
+				return cities;
+			}
+			
+			function loadCountries(data) {
+				var countries = [];
+				if (data && data.length) {
+					_.each(data, function (country) {
+						var item = {
+							text: country.Name,
+							value: country.Id
+						}
+						
+						if (country.Town && country.Town.length) {
+							item.children = loadTowns(country.Town);
+						}
+						countries.push(item);
+					});
+				}
+				return countries;
+			}
+			
+			function loadTowns(data) {
+				var towns = [];
+				if (data && data.length) {
+					_.each(data, function (town) {
+						var item = {
+							text: town.Name,
+							value: town.Id
+						}
+						towns.push(item);
+					});
+				}
+				return towns;
+			}
+		
 		</script>
 	</body>
 

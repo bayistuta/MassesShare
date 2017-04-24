@@ -69,6 +69,7 @@
 			}]
 			
 			var bonusAmount = 0;
+			var maxLevel = 1;
 			
 			mui.plusReady(function() {
 				//load category
@@ -291,14 +292,10 @@
 						success:function(data){
 							w.close();
 							if(data && data.length > 0){
-								categories = _.map(data, function (item) {
-									return {
-										text:item.Value,
-										value: item.Key
-									};
-								});
+								categories = convertCategoryData(data, 1);
 								
 								var catagoryPicker = new mui.PopPicker({
+									layer: maxLevel
 								}); 
 								catagoryPicker.setData(categories);
 								
@@ -307,8 +304,20 @@
 									if(focus)
 										focus.blur();
 									catagoryPicker.show(function(items) {
-										document.getElementById('categoryText').innerText = items[0].text;
-										document.getElementById('categoryId').value = items[0].value;
+										var result = '';
+										for(var i = 0; i < maxLevel; i++) {
+											var text = items[i].text;
+											if (text && text.length > 0) {
+												result +=text + ' ';
+											}
+										}
+										document.getElementById('categoryText').innerText = result;
+										for(var i = maxLevel - 1; i >= 0 ; i--) {
+											if (items[i].value != null) {
+												document.getElementById('categoryId').value = items[i].value;
+												break;
+											}
+										}
 									});
 								},false);
 							}else{
@@ -347,6 +356,28 @@
 					}
 				});
 			}
+			
+			function convertCategoryData(data, level) {
+				if (level > maxLevel) {
+					maxLevel = level;
+				}
+				var categories = [];
+				if (data && data.length) {
+					_.each(data, function (category) {
+						var cata = {
+							value: category.Id,
+							text: category.Name
+						};
+						
+						if (category.ChildCategoryList && category.ChildCategoryList.length) {
+							cata.children = convertCategoryData(category.ChildCategoryList, level + 1);
+						}
+						categories.push(cata);
+					})
+				}
+				return categories;
+			}
+			
 		</script>
 	</body>
 

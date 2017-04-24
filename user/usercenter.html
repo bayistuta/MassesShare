@@ -110,8 +110,10 @@
 				        <div class="mui-col-xs-6">
 				            <li class="mui-table-view-cell">
 				            	<span class="mui-icon iconfont2 icon-balance"></span>
-				            	<span>余额</span>
-				            	<span id='balance'></span>
+				            	<div class='value-panel'>
+					            	<span>余额</span><br/>
+					            	<span id='balance'></span>
+				            	</div>
 				            </li>
 				        </div>
 				        <div class="mui-col-xs-6" style="height:43px;">
@@ -125,15 +127,19 @@
 				        <div class="mui-col-xs-6">
 				            <li class="mui-table-view-cell" style="border-right:solid 1px #eee">
 				            	<span class="mui-icon iconfont2 icon-hongbao"></span>
-				            	<span>红包</span>
-				            	<span id='bonusAmount'></span>
+				            	<div class='value-panel'>
+					            	<span>红包</span><br/>
+					            	<span id='bonusAmount'></span>
+				            	</div>
 				            </li>
 				        </div>
 				        <div class="mui-col-xs-6">
 				            <li class="mui-table-view-cell">
 				            	<span class="mui-icon iconfont2 icon-daikuan"></span>
-				                <span>贷款</span>
-				            	<span id='goodsCash'></span>
+				            	<div class='value-panel'>
+				                <span>贷款</span><br/>
+				            		<span id='goodsCash'></span>
+				            	</div>
 				            </li>
 				        </div>
 				    </div>
@@ -141,15 +147,19 @@
 				        <div class="mui-col-xs-6">
 				            <li class="mui-table-view-cell" style="border-right:solid 1px #eee">
 				            	<span class="mui-icon iconfont2 icon-yeji"></span>
-				            	<span>业绩</span>
-				            	<span id='performance'></span>
+				            	<div class='value-panel'>
+					            	<span>业绩</span><br/>
+					            	<span id='performance'></span>
+				            	</div>
 				            </li>
 				        </div>
 				        <div class="mui-col-xs-6">
 				            <li class="mui-table-view-cell">
 				            	<span class="mui-icon iconfont2 icon-xiaofei"></span>
-				                <span>累计消费</span>
-				            	<span id='totalConsumeAmount'></span>
+				            	<div class='value-panel'>
+				                <span>累计消费</span><br/>
+				            		<span id='totalConsumeAmount'></span>
+				            	</div>
 				            </li>
 				        </div>
 				    </div>
@@ -179,7 +189,7 @@
                     </li>
 				</ul>
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell" id="myMemberCell" style="display: none;">
                         <a id="myMember" class="mui-navigate-right">
                             <span class="mui-icon iconfont2 icon-huiyuan"></span>
                             <span class="mui-badge mui-badge-inverted"style="display: inline-block;"></span>我的会员
@@ -368,6 +378,16 @@
 						document.getElementById('offlineOrderCenterCell').style.display = '';
 					} else {
 						document.getElementById('offlineOrderCenterCell').style.display = 'none';
+					}
+					
+					var isShowMyMember = _.any(state.roles, function (role) {
+						return role == '商家';
+					});
+					
+					if (isShowMyMember) {
+						document.getElementById('myMemberCell').style.display = '';
+					} else {
+						document.getElementById('myMemberCell').style.display = 'none';
 					}
 				}
 				account.innerText = state.account;

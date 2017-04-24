@@ -43,19 +43,21 @@
 					timeout:10000,
 					success:function(data){
 						w.close();
-						if(data.success){
+						if(data.success && data.data.AccountNo){
 							var str = '';
 							str += '<li>';
 							str += '<div class="mui-clearfix order-date"><span class="mui-pull-left title">银行卡号</span><span class="mui-pull-right">' + data.data.AccountNo  + '</span></div>';
 							str += '<div class="mui-clearfix"><span class="mui-pull-left title">开户银行</span><span class="mui-pull-right value">' + data.data.BankName + '</span></div>';
-							str += '<div class="mui-clearfix"><span class="mui-pull-left title">开户行所在地</span><span class="mui-pull-right value">' + data.data.BankRegionIds + '</span></div>';
+							str += '<div class="mui-clearfix"><span class="mui-pull-left title">开户行所在地</span><span class="mui-pull-right value">' + data.data.BankRegionNames + '</span></div>';
 							str += '<div class="mui-clearfix"><span class="mui-pull-left title">身份证号</span><span class="mui-pull-right value">' + data.data.IdCard + '</span></div>';
 							str += '<div class="mui-clearfix"><span class="mui-pull-left title">账户名</span><span class="mui-pull-right value">' + data.data.AccountName + '</span></div>';
 							str += '<div class="mui-clearfix"><span class="mui-pull-left title">电话号码</span><span class="mui-pull-right value">' + data.data.CellPhone + '</span></div>';
 							str += '</li>';
-							document.getElementById('orderOfflineList').innerHTML=str;
-							document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
+						} else {
+							himall.openVW('my-bank-add.html');
 						}
+						document.getElementById('orderOfflineList').innerHTML=str;
+						document.getElementsByClassName("mui-content")[0].className="mui-content mui-scroll-wrapper";
 					},
 					error:function(xhr,type,errorThrown){
 						w.close();

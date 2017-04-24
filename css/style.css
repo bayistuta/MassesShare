@@ -881,8 +881,19 @@ p img { max-width: 100%; height: auto; }
 	background-color: #fff;
     margin: 10px 0px 0px 0px;
 }
+#userCapital .mui-icon {
+	float: left;
+	margin-top: 15px;
+}
+#userCapital .value-panel {
+	text-align: left;
+	margin-left: 25px;
+}
+
+
+
 .with-draw-capital {
-	background-color: #fffff;
+	background-color: #fff;
 	margin-bottom: 15px;
 	height: 60px;
 }
@@ -894,4 +905,14 @@ p img { max-width: 100%; height: auto; }
 }
 .with-draw-capital > div span {
 	display: block;
+}
+.member-form #code {
+	width: 120px;
+}
+.member-form #sendCode{ margin-top:2px;padding:0px;background: #3e7fd2;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;}
+.member-form #sendCode span{ font-size: 12px;}
+.member-form #sendCode:active{color: #FFFFFF;background: #4b6efb;}
+.member-form #sendCode.disable{
+	color: #000;
+	background: #cfcfcf;
 }

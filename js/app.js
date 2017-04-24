@@ -33,7 +33,11 @@ var URL='http://120.77.80.215/',
 			success:function(data){
 				waitLogin.close();
 				if(data.Success=="true"){
-					return app.createState(loginInfo.account,data.UserId, data.Roles, callback);
+					if (data.UserId) {
+						return app.createState(loginInfo.account,data.UserId, data.Roles, callback);
+					} else {
+						callback('用户禁止APP登陆');
+					}
 				}else{
 					callback('用户名或密码错误');
 				}

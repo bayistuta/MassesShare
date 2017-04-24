@@ -18,7 +18,7 @@
 			<h1 class="mui-title">添加会员</h1>
 		</header>
 		<div class="mui-content">
-			<div class="form-list">
+			<div class="form-list member-form">
 				<ul>
                     <li class="input-in"><span class="f-l">会员账号</span><span class="f-r"><input type="text" id="userName" value="" class="input" placeholder="输入会员账号"/></span></li>
                     <li class="input-in" style="border-bottom: solid 1px #cfcfcf;"><span class="f-l">会员密码</span><span class="f-r"><input type="password" id="password" value="" class="input" placeholder="输入会员密码"/></span></li>
@@ -27,7 +27,7 @@
                     <li class="input-in" style="margin-top: 0px"><span class="f-l">手机号码</span><span class="f-r"><input type="number" id="cellPhone" value="" class="input" placeholder="输入手机号码"/></span></li>
                     <li class="mui-table-view-cell" style="border-bottom: solid 1px #cfcfcf;"><a id="showCity" class="mui-navigate-right"><span class="f-l">地区</span><span class="f-r" id="addressData">请选择地区</span></a></li>
                     <li class="input-in" style="margin-top: 0px"><span class="f-l">详细地址</span><span class="f-r"><input type="text" id="address" value="" class="input" placeholder="输入详细地址"/></span></li>
-                    <li class="input-in"><span class="f-l">验证码</span><span class="f-r"><input type="text" id="code" value="" class="input" placeholder="输入验证码"/></span></li>
+                    <li class="input-in"><span class="f-l">验证码</span><span class="f-r"><input type="text" id="code" value="" class="input" placeholder="输入验证码"/><a class="btn mui-pull-right" id="sendCode"><span>发送验证码</span></a></span></li>
                     
                     <li class="certification"><a id="submitAds" class="btn">确认保存</a></li>
 				</ul>
@@ -45,11 +45,14 @@
 				swipeBack: true
 			});
 			
-			var regionId;
+			var regionId = '';
+			var regions = [];
 			mui.plusReady(function() {
 				//load category
-				loadRegion(0);
+				loadRegion();
 			});
+			
+			var verifyInterval = null;
 			
 			document.getElementById('submitAds').addEventListener('tap',function(){
 				if(document.getElementById('userName').value ==''){
@@ -82,16 +85,26 @@
 					return false;
 				}
 				
+				if(regionId == '') {
+					plus.nativeUI.toast('请选择区域');
+					return false;
+				}
+				
 				if(document.getElementById('address').value ==''){
 					plus.nativeUI.toast('请填写详细地址');
 					return false;
 				}
 				
 				var w=plus.nativeUI.showWaiting('',{padlock:true});
-				mui.ajax(URL+'api/Capital/AddReCharge',{
+				mui.ajax(URL+'api/UserInvite/AddUser',{
 					data:JSON.stringify({
-						amount: document.getElementById('chargeAmount').value,
-						chargeWay: document.getElementById('chargeModeId').value
+						UserName: document.getElementById('userName').value, 
+					    RealName: document.getElementById('realName').value, 
+					    Password: document.getElementById('password').value, 
+					    CellPhone: document.getElementById('cellPhone').value, 
+					    RegionId: regionId, 
+					    Address: document.getElementById('address').value, 
+					    Code: document.getElementById('code').value
 					}),
 					dataType:'json',
 					contentType:'application/json',
@@ -99,9 +112,9 @@
 					timeout:10000,
 					success:function(data){
 						w.close();
-						if(data.success==true){
-							plus.nativeUI.toast('充值记录提交成功');
-							mui.fire(plus.webview.getWebviewById('charge-list.html'),'updateData');
+						if(data.success){
+							plus.nativeUI.toast('会员创建成功');
+							mui.fire(plus.webview.getWebviewById('member-list.html'),'updateData');
 							setTimeout(function(){
 								plus.webview.currentWebview().close();
 							},1000)
@@ -116,25 +129,168 @@
 				});
 			});
 			
-			function loadRegion(regionId) {
-				mui.ajax(URL+'api/PublicOperation/GetRegion?parentId=' + regionId,{
+			function loadRegion() {
+				mui.ajax(URL+'api/PublicOperation/GetRegionAll',{
 					data: {},
 					dataType:'json',
 					contentType:'application/json',
 					type:'GET',
 					timeout:10000,
 					success:function(data){
-						if(data.success==true){
-							
-						} else{
-							plus.nativeUI.toast(data.msg);
-						}
+						if(data && data.length){
+							regions = loadProvinces(data);
+							var cityPicker3 = new mui.PopPicker({
+								layer: 4
+							}); 
+							cityPicker3.setData(regions);
+							document.getElementById('showCity').addEventListener('tap',function(){
+								var focus=document.querySelector(':focus');
+								if(focus)
+									focus.blur();
+								cityPicker3.show(function(items) {
+									document.getElementById('addressData').innerText = (items[0].text || '') + " " + (items[1].text || '') + " " + (items[2].text || '') + " " + (items[3].text || '');
+									if(items[3].value!=null)
+										regionId=items[3].value;
+									else if (items[2].value!=null)
+										regionId=items[2].value;
+									else if (items[1].value!=null)
+										regionId=items[1].value;
+									else if (items[0].value!=null)
+										regionId=items[0].value;
+								});
+							},false);
+						} 
 					},
 					error:function(xhr,type,errorThrown){
 						plus.nativeUI.toast('保存失败，请检查网络')
 					}
 				});
 			}
+			
+			function loadProvinces(data) {
+				var provinces = [];
+				if (data && data.length) {
+					_.each(data, function (province) {
+						var item = {
+							text: province.Name,
+							value:province.Id
+						}
+						
+						if (province.City && province.City.length) {
+							item.children = loadCities(province.City);
+						}
+						provinces.push(item);
+					});
+				}
+				return provinces;
+			}
+			
+			function loadCities(data) {
+				var cities = [];
+				if (data && data.length) {
+					_.each(data, function (city) {
+						var item = {
+							text: city.Name,
+							value: city.Id
+						}
+						
+						if (city.County && city.County.length) {
+							item.children = loadCountries(city.County);
+						}
+						cities.push(item);
+					});
+				}
+				return cities;
+			}
+			
+			function loadCountries(data) {
+				var countries = [];
+				if (data && data.length) {
+					_.each(data, function (country) {
+						var item = {
+							text: country.Name,
+							value: country.Id
+						}
+						
+						if (country.Town && country.Town.length) {
+							item.children = loadTowns(country.Town);
+						}
+						countries.push(item);
+					});
+				}
+				return countries;
+			}
+			
+			function loadTowns(data) {
+				var towns = [];
+				if (data && data.length) {
+					_.each(data, function (town) {
+						var item = {
+							text: town.Name,
+							value: town.Id
+						}
+						towns.push(item);
+					});
+				}
+				return towns;
+			}
+			
+			function sendVerifyCode(phone) {
+				mui.ajax(URL+'api/UserInvite/SendCode?mobile='+phone,{
+					data: {},
+					dataType:'json',
+					contentType:'application/json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						if (data.success){
+							plus.nativeUI.toast('验证码发送成功');
+							document.getElementById('sendCode').className="btn mui-pull-right disable";
+							launchTimer();
+						} else {
+							plus.nativeUI.toast(data.msg);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						plus.nativeUI.toast('请求失败，请检查网络')
+					}
+				});
+			}
+			
+			mui('.form-list').on('tap', '#sendCode', function () {
+				var phone = document.getElementById('cellPhone').value;
+				if (phone.length == 0) {
+					plus.nativeUI.toast('请填写手机号码');
+					return false;
+				}
+				
+				sendVerifyCode(phone);
+			})
+			
+			function launchTimer() {
+				var second = 1;
+				mui('#sendCode span')[0].innerText = '发送验证码('+ second +')';
+
+				verifyInterval = setInterval(function () {
+					second +=1;
+					mui('#sendCode span')[0].innerText = '发送验证码('+ second +')';
+					if (second === 300 && verifyInterval) {
+						document.getElementById('sendCode').className="btn mui-pull-right";
+						mui('#sendCode span')[0].innerText = '发送验证码';
+						clearInterval(verifyInterval);
+					}
+				},1000);
+			}
+			
+			document.getElementById('cellPhone').addEventListener('change', function () {
+				if (verifyInterval) {
+					clearInterval(verifyInterval);
+					verifyInterval = null;
+					document.getElementById('sendCode').className="btn mui-pull-right";
+					mui('#sendCode span')[0].innerText = '发送验证码';
+				}
+			}, false);
+
 		</script>
 	</body>
 
