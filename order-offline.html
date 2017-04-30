@@ -243,7 +243,7 @@
 			
 			//审核通过
 			mui('.order-offline-list').on('tap', '.approve-order', function () {
-				var orderId = this.getAttribute('order-id')
+				var orderId = this.getAttribute('order-id');
 				var w=plus.nativeUI.showWaiting('',{padlock:true});
 				mui.ajax(URL+'api/OfflineOrder/AuditOrder',{
 					data: JSON.stringify([orderId]),
@@ -271,6 +271,7 @@
 			
 			//审核驳回
 			mui('.order-offline-list').on('tap', '.deny-order', function () {
+				var orderId = this.getAttribute('order-id');
 				mui.prompt('请输入备注后，点击确认','备注','驳回订单',['确认','取消'], function (result) {
 					if (result.index == 0 && result.value.length > 0) {
 						var w=plus.nativeUI.showWaiting('',{padlock:true});

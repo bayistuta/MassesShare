@@ -25,6 +25,14 @@
 			<a class="submit-cart" id="submitBtn">提交订单</a>
 		</div>
 		<div id="dcontent" class="dcontent"></div>
+		<div id="balanceBox" class="dcontent">
+			<ul>
+				<li><input type="text" placeholder="余额支付金额(可用:287.35)" id="balanceAmtText" class="input" /></li>
+				<li><input type="text" placeholder="红包支付金额(可用:187.35)" id="redAmtText" class="input" /></li>
+				<li><input type="password" placeholder="支付密码" class="input" id='pwdText' /></li>
+				<li><button class="mui-btn mui-btn-blue mui-btn-block" id="confirmPayRedAndBalance">确认支付</button></li>
+			</ul>
+		</div>
 		<div id="payWayBox" class="screen-box">
         	<div class="screen-list" id="payWayTeam"></div>
         	<div class="screen-enter">
@@ -56,6 +64,7 @@
 				invoiceTitle,
 				pays={},
 				mask,
+				maskBalance,
 				payOrderId,
 				usePayWayText,
 				loadPage,
@@ -338,6 +347,7 @@
 				
 				loadPage();
 				initPay('dcontent');
+				loadBalance();
 			});
 			
 			mui('#orderSubmit').on('tap', '.goods-url', function() {
@@ -414,7 +424,7 @@
 						invoiceTitle:invoiceTitle
 					},orderData);
 				}
-				console.log(submitUrl);
+
 				mui.ajax(URL+submitUrl,{
 					data:JSON.stringify(submitData),
 					dataType:'json',
@@ -485,6 +495,13 @@
 			
 			var wPay=null;
 			mui('#dcontent').on('tap','.custom-btn',function(){
+				if (this.id=='yue') {
+					if(!maskBalance)
+						maskBalance = mui.createMask(function(){document.getElementById('balanceBox').className='dcontent';});
+					maskBalance.show();
+					document.getElementById('balanceBox').className='dcontent active';
+					return;
+				}
 				payOrder(this.id,payOrderId,
 					function(){
 						plus.nativeUI.alert("支付成功，等待卖家发货！",function(){
@@ -506,11 +523,87 @@
 				)
 			});
 			
+			mui('#balanceBox').on('tap','#confirmPayRedAndBalance', function () {
+				balancePayment();
+			});
+			
 			function openOrderList(num,bonusId){
 				himall.openVW('order-list.html','',{orderStatus:num,bonusId:bonusId});
 				setTimeout(function(){
 					plus.webview.getWebviewById('order-submit.html').close('none');
 				},1000)
+			}
+			
+			function loadBalance() {
+				//用户资金数据
+				mui.ajax(URL+'api/UserCenter/GetUserCaptial/' + himall.getState().userId,{
+					dataType:'json',
+					type:'get',
+					timeout:10000,
+					success:function(data){
+						if(data.success){
+							var balanceText = document.getElementById('balanceAmtText');
+							var redText = document.getElementById('redAmtText');
+							var pwdText = document.getElementById('pwdText');
+							var confirmButton = document.getElementById('confirmPayRedAndBalance');
+							balanceText.placeholder = '余额支付金额(可用:' + data.data.Balance.toFixed(2) + ')';
+							redText.placeholder = '红包支付金额(可用:' + data.data.BonusAmount.toFixed(2) + ')';
+							if (data.data.Balance == 0) {
+								balanceText.disabled = true;
+							}
+							
+							if (data.data.BonusAmount == 0) {
+								redText.disabled = true;
+							}
+							
+							if (data.data.Balance == 0 && data.data.BonusAmount == 0) {
+								pwdText.disabled = true;
+								confirmButton.disabled = true;
+							}
+						}
+					}
+				});
+			}
+		
+			function balancePayment() {
+				var balanceText = document.getElementById('balanceAmtText');
+				var redText = document.getElementById('redAmtText');
+				var pwdText = document.getElementById('pwdText');
+				if (redText.value == '' && balanceText.value == '') {
+					plus.nativeUI.alert('红包支付金额和余额支付金额不能同时为空！');
+					return;
+				}
+				
+				if (pwdText.value == '') {
+					plus.nativeUI.alert('支付密码不能为空！');
+					return;
+				}
+				
+				var pW=plus.nativeUI.showWaiting();
+				mui.ajax(URL+'api/Payment/PayByCapital?ids=' + payOrderId +
+				'&payPwd=' + pwdText.value +
+				'&balanceAmount=' + (balanceText.value == '' ? 0 : balanceText.value) +
+				'&bonusAmount=' + (redText.value == '' ? 0 : redText.value),{
+					dataType:'json',
+					type:'POST',
+					timeout:10000,
+					success:function(data){
+						pW.close();
+						if(data.success){
+							openOrderList(2,payOrderId);
+						} else {
+							plus.nativeUI.alert("订单支付失败！",function(){
+								openOrderList(1);
+							});
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						pW.close();
+						plus.nativeUI.alert("订单支付失败！",function(){
+							openOrderList(1);
+						});
+					}
+				});
 			}
 			
 		</script>

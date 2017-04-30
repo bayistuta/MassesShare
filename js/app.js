@@ -447,6 +447,14 @@ function initPay(dcontent){
 				}
 			}
 		}
+		
+		//余额支付
+		var de=document.createElement('div');
+		de.setAttribute('class','custom-btn yue');
+		//de.setAttribute('onclick','pay(this.id)');
+		de.id='yue';
+		de.innerText="余额支付";
+		content.appendChild(de);
 	},function(e){
 		plus.nativeUI.alert("获取支付方式失败："+e.message);
 	});

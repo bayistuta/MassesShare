@@ -517,6 +517,7 @@ p img { max-width: 100%; height: auto; }
 .dcontent div+div{ margin-top: 10px;}
 .dcontent .custom-btn.alipay{ background-color: #00aaee;}
 .dcontent .custom-btn.wxpay{ background-color: #44b549;}
+.dcontent .custom-btn.yue{ background-color: #f0ad4e ;}
 .dcontent .dcontent-text{ color: #333; font-size: 16px; font-weight:bold; line-height: 16px; margin: -2px 0 10px;}
 .dcontent .dcontent-text span{ color: #E3393C; margin-left: 8px; font-size: 18px;}
 .dcontent .dcontent-text span i{ margin-right: 2px;}
@@ -848,19 +849,19 @@ p img { max-width: 100%; height: auto; }
 	top: 20%;
 	left: calc(50% - 140px);
 }
-.order-detail{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;}
+.order-detail{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 80px; line-height: 35px; display: block;  font-size: 16px;}
 .order-detail span{ font-size: 12px;}
 .order-detail:active{color: #FFFFFF;background: #4b6efb;}
 
-.approve-order{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;}
+.approve-order{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 80px; line-height: 35px; display: block;  font-size: 16px;}
 .approve-order span{ font-size: 12px;}
 .approve-order:active{color: #FFFFFF;background: #4b6efb;}
 
-.cancel-order{ background: #E3393C;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;margin-left: 15px;}
+.cancel-order{ background: #E3393C;color: #FFFFFF; text-align: center; width: 80px; line-height: 35px; display: block;  font-size: 16px;margin-left: 15px;}
 .cancel-order span{ font-size: 12px;}
 .cancel-order:active{color: #FFFFFF;background: #4b6efb;}
 
-.deny-order{ background: #E3393C;color: #FFFFFF; text-align: center; width: 100px; line-height: 35px; display: block;  font-size: 16px;margin-left: 15px;}
+.deny-order{ background: #E3393C;color: #FFFFFF; text-align: center; width: 80px; line-height: 35px; display: block;  font-size: 16px;margin-left: 15px;}
 .deny-order span{ font-size: 12px;}
 .deny-order:active{color: #FFFFFF;background: #4b6efb;}
 
@@ -916,3 +917,5 @@ p img { max-width: 100%; height: auto; }
 	color: #000;
 	background: #cfcfcf;
 }
+
+#balanceBox .input {font-size: 14px;}
