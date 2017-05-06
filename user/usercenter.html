@@ -27,7 +27,7 @@
 			.table-view-iconlist .iconfont2{margin-right: 5px;}
 			.icon-top .iconfont2{ position: relative; top: 2px;}
 			.user-info{ padding: 1px 0 12px;
-			background: #29bde8;color: #fff; text-align: center; margin-top: -1px; height: 160px;}
+			background: #29bde8;color: #fff; text-align: center; margin-top: -1px; height: 180px;}
 			.user-info img{ height: 70px; display:inline; border-radius: 100%;}
 			.user-info h3{ font-size: 16px; margin: 3px 0; position:relative; z-index: 3; line-height: 22px;}
 			.user-info ul{ position: relative;z-index: 2;}
@@ -36,7 +36,7 @@
 			.user-info ul li:first-child:after{content: '';position: absolute; right: 0; height: 20px;border-left: 1px solid #fff; bottom: 0;}
 			.user-info ul li strong{font-size: 22px; font-weight: normal;}
 			.user-info ul li p{ color: #fff; margin: 0;}
-			.scroll-div{ top: 161px;}
+			.scroll-div{ top: 181px;}
 			#userCapital .mui-row {border-bottom: solid 1px #eee;}
 			.btn-charge{ background: #3e7fd2;color: #FFFFFF; text-align: center; width: 50px; line-height: 15px; display: inline-block;  font-size: 16px; right:85px!important;}
 			.btn-charge span{ font-size: 12px;}
@@ -204,7 +204,7 @@
 				</ul>
 				
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell" style="display: none;">
 						<a id="showInvite" class="mui-navigate-right"><span class="mui-icon iconfont icon-yaoqing"></span>我要推广</a>
 					</li>
 					<li class="mui-table-view-cell">
@@ -390,7 +390,7 @@
 						document.getElementById('myMemberCell').style.display = 'none';
 					}
 				}
-				account.innerText = state.account;
+				account.innerHTML = state.account + '<br/>' + state.roles.join(', ');
 				document.getElementById('login').style.display='none';
 				document.getElementsByClassName('exit-box')[0].style.display='block';
 				userId=state.userId;
@@ -499,7 +499,7 @@
 					success:function(data){
 						if(data.success){
 							document.getElementById('balance').innerText = '￥' + data.data.Balance.toFixed(2);
-							document.getElementById('bonusAmount').innerText = '￥' + data.data.BonusAmount.toFixed(2);
+							document.getElementById('bonusAmount').innerText = data.data.BonusCount;
 							document.getElementById('goodsCash').innerText = '￥' + data.data.GoodsCash.toFixed(2);
 							document.getElementById('performance').innerText = '￥' + data.data.Performance.toFixed(2);
 							document.getElementById('totalConsumeAmount').innerText = '￥' + data.data.TotalConsumeAmount.toFixed(2);

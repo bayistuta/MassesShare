@@ -40,6 +40,7 @@
 		<script src="../js/mui.listpicker.js"></script>
 		<script src="../js/mui.poppicker.js"></script>
 		<script type="text/javascript" charset="utf-8">
+			var regionId = '';
 			mui.plusReady(function() {
 				plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
 				loadBankInfo();
@@ -243,7 +244,9 @@
 				return towns;
 			}
 		
-			
+			document.addEventListener('updateData', function() {
+				loadBankInfo();
+			});
 		</script>
 	</body>
 </html>

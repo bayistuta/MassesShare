@@ -15,6 +15,7 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">我的银行卡</h1>
 			<a class="mui-pull-right mui-btn-link addCard" id='addCard' style="display:none">绑定</a>
+			<a class="mui-pull-right mui-btn-link modifyCard" id='modifyCard' style="display:none">修改</a>
 		</header>
 		<script src="../js/lodash.min.js"></script>
 		<script src="../js/mui.min.js"></script>
@@ -52,7 +53,30 @@
 		});
 		
 		mui.plusReady(function() {
-			
+			var state = himall.getState();
+			mui.ajax(URL+'api/Capital/GetBank',{
+				data: {
+				},
+				dataType:'json',
+				type:'GET',
+				timeout:10000,
+				success:function(data){
+					//w.close();
+					if(data.success && data.data.AccountNo){
+						document.getElementById('modifyCard').style.display = '' ;
+					} else {
+						document.getElementById('modifyCard').style.display = 'none' ;
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//w.close();
+					//reloadWvLoad();
+				}
+			});
+		});
+		
+		mui('.mui-bar-nav').on('tap', '.modifyCard', function () {
+			himall.openVW('my-bank-edit.html');
 		});
 		</script>
 	</body>

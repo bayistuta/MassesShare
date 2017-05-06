@@ -27,6 +27,14 @@
 						</a>
 					</li>
 					<li class="mui-table-view-cell mui-media">
+						<a class="mui-navigate-right" id="changePayPassword">
+							<div class="mui-media-body">
+								修改支付密码
+								<p class="mui-ellipsis">建议定期修改支付密码以保护账户安全</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
 						<a class="mui-navigate-right" id="bindPhone">
 							<div class="mui-media-body">
 								绑定手机<span id="Phone" style="margin-left: 30px; color: #E3393C;"></span>
@@ -47,6 +55,9 @@
 					document.getElementById('Phone').innerText='已绑定：'+CellPhone;
 				document.getElementById('changePassword').addEventListener('tap',function(){
 					himall.openVW('change-password.html');
+				})
+				document.getElementById('changePayPassword').addEventListener('tap',function(){
+					himall.openVW('change-pay-password.html');
 				})
 				document.getElementById('bindPhone').addEventListener('tap',function(){
 					himall.openVW('bind-phone.html');
