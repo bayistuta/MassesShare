@@ -499,7 +499,7 @@
 					success:function(data){
 						if(data.success){
 							document.getElementById('balance').innerText = '￥' + data.data.Balance.toFixed(2);
-							document.getElementById('bonusAmount').innerText = data.data.BonusCount;
+							document.getElementById('bonusAmount').innerText = '￥' + data.data.BonusAmount + ' (' + data.data.BonusCount + ')';
 							document.getElementById('goodsCash').innerText = '￥' + data.data.GoodsCash.toFixed(2);
 							document.getElementById('performance').innerText = '￥' + data.data.Performance.toFixed(2);
 							document.getElementById('totalConsumeAmount').innerText = '￥' + data.data.TotalConsumeAmount.toFixed(2);
