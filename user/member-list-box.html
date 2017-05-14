@@ -14,7 +14,7 @@
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">我的会员</h1>
-			<a class="mui-pull-right mui-btn-link addMember" id='addMember'>添加</a>
+			<a class="mui-pull-right mui-btn-link" id='showCode'>商家二维码</a>
 		</header>
 		<script src="../js/lodash.min.js"></script>
 		<script src="../js/mui.min.js"></script>
@@ -47,10 +47,11 @@
 			}
 		});
 		
-		mui('body').on('tap', '.addMember', function() {
-			himall.openVW('member-add.html');
+		mui('body').on('tap', '#showCode', function() {
+			himall.openVW('member-add-bycode.html');
 		});
 		
+
 		mui.plusReady(function() {
 			
 		});

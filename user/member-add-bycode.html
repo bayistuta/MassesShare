@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no,email=no" />
+		<title>扫码添加会员</title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.listpicker.css" rel="stylesheet" />
+    		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">商家二维码</h1>
+		</header>
+		<div class="mui-content" style="text-align: center;">
+			<img id="imageCode" width="200px" style="margin-top:50px; />
+		</div>
+		<script src="../js/lodash.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/mui.listpicker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			
+			mui.plusReady(function() {
+				//load category
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
+				mui.ajax(URL + '/api/UserInvite/GetQR',{
+					data:{},
+					dataType:'json',
+					type:'get',
+					timeout:20000,
+					success:function(data){
+						w.close();
+						if (data.success) {
+							document.getElementById('imageCode').src = data.data;
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						//reloadWvLoad();
+					}
+				});
+			});
+			
+		</script>
+	</body>
+
+</html>
