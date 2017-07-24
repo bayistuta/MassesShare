@@ -1,11 +1,11 @@
 {
-	"id": "H5F8F04DB",
-	"name": "大圣旗舰商城",
+	"id": "H524259D9",
+	"name": "众享同盟",
 	"version": {
-		"name": "2.4.2",
+		"name": "1.0.0",
 		"code": "96"
 	},
-	"description": "大圣旗舰商城",
+	"description": "众享同盟",
 	"icons": {
 		"72": "icon.png"
 	},
@@ -78,7 +78,7 @@
 				"android": {
 					"mdpi": "unpackage/res/splash/240x282.png",
 					"ldpi": "unpackage/res/splash/320x442.png",
-					"hdpi": "F:/Project/mahatma/resources/android/splash/drawable-port-ldpi-screen.png",
+					
 					"xhdpi": "F:/Project/mahatma/resources/android/splash/drawable-port-mdpi-screen.png",
 					"xxhdpi": "F:/Project/mahatma/resources/android/splash/drawable-port-hdpi-screen.png"
 				},

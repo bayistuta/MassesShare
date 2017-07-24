@@ -2,8 +2,8 @@
  * Five-xlx 2015.9.1
  * QQ:673921852
  **/
-var URL='http://120.77.80.215/',
-	AppName='大圣旗舰商城',
+var URL='http://119.23.217.125:5959/',
+	AppName='众享同盟',
 	pUrl;
 
 (function($, app) {
