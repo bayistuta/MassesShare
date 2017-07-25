@@ -9,6 +9,11 @@
 		<title>首页</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			h3.custom-title {
+				clear:both;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper transparent" style="margin-top: -1px;">
@@ -30,9 +35,9 @@
 				<div id="indexTopic" class="index-topic mui-clearfix">
 					<div class="mui-pull-loading mui-spinner custom-loading"></div>
 				</div>
-				<h3 class="custom-title">热销商品</h3>
-				<ul class="mui-table-view mui-grid-view mui-clearfix index-product" id="productsList">
-				</ul>
+				<div id="products">
+					
+				</div>
 			</div>
 		</div>
 		
@@ -42,6 +47,7 @@
 		<script>
 			var page = 1,
 				isnodata = false,
+				currentGroup = '',
 				loadPage;
 			mui.init({
 				pullRefresh : {
@@ -61,8 +67,8 @@
 										timeout:10000,
 										success:function(data){
 											if(data.Success=='true'){
-							                    var html = '';
-							                    document.getElementById('productsList').insertAdjacentHTML('beforeend',initData(html,data));
+							                    initData2(data);
+							                    //document.getElementById('productsList').insertAdjacentHTML('beforeend',initData(html,data));
 							                    delayimg.render();
 							                    if (data.TotalProduct<=page*10) {isnodata = true;}
 												self.endPullupToRefresh(isnodata);
@@ -149,7 +155,7 @@
 								if (data.TotalProduct<=10) {isnodata = true;}
 								if (data.Product.length > 0) {
 				                    var html = '';
-				                    document.getElementById('productsList').innerHTML=initData(html,data);
+				                    document.getElementById('products').innerHTML=initData1(html,data);
 				                    //图片延迟加载初始化
 				                    delayimg.init();
 				                }
@@ -177,21 +183,67 @@
 				
 			});
 			
-			function initData(html,data){
+			function initData1(html,data){
 				for (var i = 0; i < data.Product.length; i++) {
+					if (currentGroup !== data.Product[i].CateName) {
+						if (html.length > 0) {
+							html += '</ul>';
+						}
+						html += '<h3 class="custom-title">'+ data.Product[i].CateName +'</h3>';	
+						html += '<ul class="mui-table-view mui-grid-view mui-clearfix index-product">';
+						currentGroup = data.Product[i].CateName;
+					}
                     html += '<li class="mui-table-view-cell mui-media mui-col-xs-6">'+
             			'<div class="index-product-box">';
-            				if(data.Product[i].Discount>0&&data.Product[i].Discount<1)
-            					html += '<i>'+data.Product[i].Discount*10+'折</i>';
-							html +='<a data-id="'+data.Product[i].Id+'">'+
+            			if(data.Product[i].Discount>0&&data.Product[i].Discount<1) {
+            				html += '<i>'+data.Product[i].Discount*10+'折</i>';
+            			}
+            					
+					html +='<a data-id="'+data.Product[i].Id+'">'+
 								'<div class="p-img"><b data-delay-background="'+data.Product[i].ImageUrl+'"></b></div>'+
 								'<div class="mui-media-body">'+data.Product[i].Name+'</div>'+
 								'<p class="index-product-price"><span>¥ '+data.Product[i].SalePrice+'</span><em>¥'+data.Product[i].MarketPrice+'</em></p>'+
 							'</a>'+
-						'</div>'+
-            		'</li>';
+					'</div>'+
+	            		'</li>';
                 }
+				html += '</ul>';
 				return html;
+			}
+			
+			function initData2(data) {
+				var html = '';
+				for (var i = 0; i < data.Product.length; i++) {
+					if (currentGroup !== data.Product[i].CateName) {
+						var indexProducts = document.getElementsByClassName('index-product');
+						if (html.length > 0) {
+							indexProducts[indexProducts.length - 1].insertAdjacentHTML('beforeend', html);
+							html = '';
+						}
+						document.getElementById('products').insertAdjacentHTML('beforeend', '<h3 class="custom-title">'+ data.Product[i].CateName +'</h3>');
+						document.getElementById('products').insertAdjacentHTML('beforeend', '<ul class="mui-table-view mui-grid-view mui-clearfix index-product"></ul>');
+						currentGroup = data.Product[i].CateName;
+					}
+                    html += '<li class="mui-table-view-cell mui-media mui-col-xs-6">'+
+            			'<div class="index-product-box">';
+            			if(data.Product[i].Discount>0&&data.Product[i].Discount<1) {
+            				html += '<i>'+data.Product[i].Discount*10+'折</i>';
+            			}
+            					
+					html +='<a data-id="'+data.Product[i].Id+'">'+
+								'<div class="p-img"><b data-delay-background="'+data.Product[i].ImageUrl+'"></b></div>'+
+								'<div class="mui-media-body">'+data.Product[i].Name+'</div>'+
+								'<p class="index-product-price"><span>¥ '+data.Product[i].SalePrice+'</span><em>¥'+data.Product[i].MarketPrice+'</em></p>'+
+							'</a>'+
+					'</div>'+
+	            		'</li>';
+               }
+			   if (html.length > 0) {
+					indexProducts = document.getElementsByClassName('index-product');
+					indexProducts[indexProducts.length - 1].insertAdjacentHTML('beforeend', html);
+					html = '';
+			   }
+			   
 			}
 			
 			mui('.mui-content').on('tap', '.c-href', function() {
