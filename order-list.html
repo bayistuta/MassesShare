@@ -33,7 +33,7 @@
 		<div id="balanceBox" class="dcontent">
 			<ul>
 				<li><input type="text" placeholder="余额支付金额(可用:287.35)" id="balanceAmtText" class="input" /></li>
-				<li><input type="text" placeholder="红包支付金额(可用:187.35)" id="redAmtText" class="input" /></li>
+				<li><input type="text" placeholder="众享包支付金额(可用:187.35)" id="redAmtText" class="input" /></li>
 				<li><input type="password" placeholder="支付密码" class="input" id='pwdText' /></li>
 				<li><button class="mui-btn mui-btn-blue mui-btn-block" id="confirmPayRedAndBalance">确认支付</button></li>
 			</ul>
@@ -332,7 +332,7 @@
 							var pwdText = document.getElementById('pwdText');
 							var confirmButton = document.getElementById('confirmPayRedAndBalance');
 							balanceText.placeholder = '余额支付金额(可用:' + data.data.Balance.toFixed(2) + ')';
-							redText.placeholder = '红包支付金额(可用:' + data.data.BonusAmount.toFixed(2) + ')';
+							redText.placeholder = '众享包支付金额(可用:' + data.data.BonusAmount.toFixed(2) + ')';
 							if (data.data.Balance == 0) {
 								balanceText.disabled = true;
 							}
@@ -355,7 +355,7 @@
 				var redText = document.getElementById('redAmtText');
 				var pwdText = document.getElementById('pwdText');
 				if (redText.value == '' && balanceText.value == '') {
-					plus.nativeUI.alert('红包支付金额和余额支付金额不能同时为空！');
+					plus.nativeUI.alert('众享包支付金额和余额支付金额不能同时为空！');
 					return;
 				}
 				
@@ -468,7 +468,7 @@
 		<script id="bonusData" type="text/html">
 			{{if List.length ==1}}
 	        	<div class="bonus-box">
-		        	<h3>恭喜你获得<span>{{List[0].ShareCount}}</span>个红包</h3>
+		        	<h3>恭喜你获得<span>{{List[0].ShareCount}}</span>个众享包</h3>
 			        <h4>把他分享给好友吧</h4>
 			        <div class="bg"><img src="images/bonus-box.png"></div>
 			        <h5><a class="custom-btn share-bonus-btn" data-href="{{List[0].ShareHref}}" data-title="{{List[0].ShareTitle}}" data-content="{{List[0].ShareDetail}}" >分享给好友</a></h5>
@@ -476,11 +476,11 @@
 	        {{/if}}
 	        {{if List.length > 1}}
 	        	<div class="bonus-box">
-		        	<h3>恭喜你获得<span>{{List.length}}</span>个店家的红包</h3>
+		        	<h3>恭喜你获得<span>{{List.length}}</span>个店家的众享包</h3>
 			        <h4>把他分享给好友吧</h4>
 			        <div class="bg"><img src="images/bonus-box.png"></div>
 			        {{each List}}
-			        	<p>{{$value.ShopName}}{{$value.ShareCount}}个红包<a class="share-bonus-btn" data-href="{{$value.ShareHref}}" data-title="{{$value.ShareTitle}}" data-content="{{$value.ShareDetail}}">我要发红包 <i class="mui-icon mui-icon-arrowright"></i></a></p>
+			        	<p>{{$value.ShopName}}{{$value.ShareCount}}个众享包<a class="share-bonus-btn" data-href="{{$value.ShareHref}}" data-title="{{$value.ShareTitle}}" data-content="{{$value.ShareDetail}}">我要发众享包 <i class="mui-icon mui-icon-arrowright"></i></a></p>
 			        {{/each}}
 	        	<div>
 	        {{/if}}

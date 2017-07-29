@@ -2,8 +2,9 @@
  * Five-xlx 2015.9.1
  * QQ:673921852
  **/
-var URL='http://119.23.217.125:5959/',
-	AppName='众享同盟',
+var URL='http://119.23.217.125:5959/', //test
+//var URL='http://www.zxlmzg.com/', //live
+	AppName='众享联盟',
 	pUrl;
 
 (function($, app) {

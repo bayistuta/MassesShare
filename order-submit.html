@@ -28,7 +28,7 @@
 		<div id="balanceBox" class="dcontent">
 			<ul>
 				<li><input type="text" placeholder="余额支付金额(可用:287.35)" id="balanceAmtText" class="input" /></li>
-				<li><input type="text" placeholder="红包支付金额(可用:187.35)" id="redAmtText" class="input" /></li>
+				<li><input type="text" placeholder="众享包支付金额(可用:187.35)" id="redAmtText" class="input" /></li>
 				<li><input type="password" placeholder="支付密码" class="input" id='pwdText' /></li>
 				<li><button class="mui-btn mui-btn-blue mui-btn-block" id="confirmPayRedAndBalance">确认支付</button></li>
 			</ul>
@@ -547,7 +547,7 @@
 							var pwdText = document.getElementById('pwdText');
 							var confirmButton = document.getElementById('confirmPayRedAndBalance');
 							balanceText.placeholder = '余额支付金额(可用:' + data.data.Balance.toFixed(2) + ')';
-							redText.placeholder = '红包支付金额(可用:' + data.data.BonusAmount.toFixed(2) + ')';
+							redText.placeholder = '众享包支付金额(可用:' + data.data.BonusAmount.toFixed(2) + ')';
 							if (data.data.Balance == 0) {
 								balanceText.disabled = true;
 							}
@@ -570,7 +570,7 @@
 				var redText = document.getElementById('redAmtText');
 				var pwdText = document.getElementById('pwdText');
 				if (redText.value == '' && balanceText.value == '') {
-					plus.nativeUI.alert('红包支付金额和余额支付金额不能同时为空！');
+					plus.nativeUI.alert('众享包支付金额和余额支付金额不能同时为空！');
 					return;
 				}
 				

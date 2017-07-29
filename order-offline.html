@@ -106,7 +106,7 @@
 										str += '<div class="mui-clearfix order-date"><span class="mui-pull-left title">下单时间</span><span class="mui-pull-right value">' + order.OrderDate + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">数量</span><span class="mui-pull-right value">' + order.ProductCount + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">现金支付</span><span class="mui-pull-right value">' + order.CashAmount.toFixed(2)  + '</span></div>';
-										str += '<div class="mui-clearfix"><span class="mui-pull-left title">红包支付</span><span class="mui-pull-right value">' + order.CreditAmount.toFixed(2)  + '</span></div>';
+										str += '<div class="mui-clearfix"><span class="mui-pull-left title">众享包支付</span><span class="mui-pull-right value">' + order.CreditAmount.toFixed(2)  + '</span></div>';
 										str += '<div class="mui-clearfix"><span class="mui-pull-left title">状态</span><span class="mui-pull-right price">' + order.OrderStatusText + '</span></div>';
 										str += '<div class="mui-clearfix"><a class="order-detail mui-pull-left" order-id="' + order.Id + '">订单详情</a>';
 										if (isSeller() && order.OrderStatusText == '未确认') {

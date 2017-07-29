@@ -24,19 +24,19 @@
                     
 					<li class="input-in" style="margin-bottom:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">买家账号</span><span class="f-r"><input type="text" id="userName" value="" class="input" placeholder="输入买家账号"/><input type="hidden" id="userId" value="" class="input"/></span></li>
                     <li class="input-in" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">买家姓名（电话）</span><span class="f-r"><span id="userNickAndMobile"></span></span></li>
-                    <li class="input-in" style="margin-top:0px;"><span class="f-l">买家红包</span><span class="f-r"><span id="userCashAmout"></span></span></li>
+                    <li class="input-in" style="margin-top:0px;"><span class="f-l">买家众享包</span><span class="f-r"><span id="userCashAmout"></span></span></li>
                     
                     <li class="input-in" style="margin-bottom:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">商品名称</span><span class="f-r"><input type="text" id="productName" value="" class="input" placeholder="输入商品名称"/></span></li>
                     <li class="mui-table-view-cell" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><a id="showCatagory" class="mui-navigate-right"><span class="f-l">商品分类</span><span class="f-r" id="categoryText">请选择商品分类</span><input type="hidden" id="categoryId"/></a></li>
                     <li class="input-in" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">商品数量</span><span class="f-r"><input type="number" id="productNumber" value="" class="input" placeholder="输入商品数量"/></span></li>
                     <li class="mui-table-view-cell" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><a id="showPayMode" class="mui-navigate-right"><span class="f-l">支付方式</span><span class="f-r" id="payModeText">现金支付</span><input type="hidden" value="10" id="payModeId"/></a></li>
                     <li class="input-in" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;" id="lineCash"><span class="f-l">现金支付</span><span class="f-r"><input type="number" id="cashAmount" value="" class="input" placeholder="输入现金支付金额"/></span></li>
-                    <li class="input-in" style="margin-top:0px;display:none" id="lineRed"><span class="f-l">红包支付</span><span class="f-r"><input type="number" id="redAmount" value="" class="input" placeholder="输入红包支付金额"/></span></li>
+                    <li class="input-in" style="margin-top:0px;display:none" id="lineRed"><span class="f-l">众享包支付</span><span class="f-r"><input type="number" id="redAmount" value="" class="input" placeholder="输入众享包支付金额"/></span></li>
                     
-                    <li class="input-in" id="lineSellerRed" style="margin-bottom:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">商家红包</span><span class="f-r"><span id="bonusAmount"></span></span></li>
+                    <li class="input-in" id="lineSellerRed" style="margin-bottom:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">商家众享包</span><span class="f-r"><span id="bonusAmount"></span></span></li>
                     <li class="input-in" id="lineCommission" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">平台服务费</span><span class="f-r"><span id="commissionAmount">￥0.00</span></span></li>
                     <li class="input-in" id="lineCashCommission" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">现金支付平台服务费</span><span class="f-r"><input type="number" id="cashCommissionAmount" value="" class="input" placeholder="输入现金支付服务费"/></span></li>
-                    <li class="input-in" id="lineRedCommission" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">红包支付平台服务费</span><span class="f-r"><input type="number" id="redCommissionAmount" value="0.00" class="input" readonly /></span></li>
+                    <li class="input-in" id="lineRedCommission" style="margin-top:0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">众享包支付平台服务费</span><span class="f-r"><input type="number" id="redCommissionAmount" value="0.00" class="input" readonly /></span></li>
                     
                     <li class="input-in" ><span class="f-l">支付密码</span><span class="f-r"><input type="password" id="payPassword" value="" class="input" placeholder="输入支付密码"/></span></li>
                     
@@ -61,7 +61,7 @@
 				text: '现金支付',
 				value: 10
 			},{
-				text: '红包支付',
+				text: '众享包支付',
 				value: 20
 			},{
 				text: '混合支付',
@@ -147,7 +147,7 @@
 				},false);
 				
 				document.getElementById('cashAmount').addEventListener('change', function () {
-					var commissionMoney = (this.value * 0.15).toFixed(2);
+					var commissionMoney = (this.value * 0.14).toFixed(2);
 					document.getElementById('commissionAmount').innerText = '￥' + commissionMoney;
 					document.getElementById('cashCommissionAmount').value = '';
 					document.getElementById('redCommissionAmount').value = '';
@@ -155,7 +155,7 @@
 				
 				document.getElementById('cashCommissionAmount').addEventListener('change', function () {
 					var cashCommissionAmount = this.value;
-					var commisionAmount = (document.getElementById('cashAmount').value * 0.15).toFixed(2);
+					var commisionAmount = (document.getElementById('cashAmount').value * 0.14).toFixed(2);
 					if (parseFloat(cashCommissionAmount) >= parseFloat(commisionAmount)) {
 						this.value = commisionAmount;
 						document.getElementById('redCommissionAmount').value = '0.00';
@@ -201,11 +201,11 @@
 				}
 				
 				if(payMode != 10 && redAmount == 0){
-					plus.nativeUI.toast('请输入红包支付金额');
+					plus.nativeUI.toast('请输入众享包支付金额');
 					return false;
 				}
 				
-				var commissionAmount = cashAmount * 0.15;
+				var commissionAmount = cashAmount * 0.14;
 				var cashCommissionAmount = document.getElementById('cashCommissionAmount').value;
 				if (cashCommissionAmount == '') {
 					cashCommissionAmount = 0;
@@ -237,7 +237,7 @@
 					return;
 				}
 				if (vm.account.RedMoney < vm.redCommissionMoney) {
-					ionicToast.show('红包金额不足以支付该订单平台服务费', 'top', false, 2500);
+					ionicToast.show('众享包金额不足以支付该订单平台服务费', 'top', false, 2500);
 					return;
 				}*/
 				
