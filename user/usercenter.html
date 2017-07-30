@@ -17,26 +17,29 @@
 			.mui-grid-view.mui-grid-9:after{ position: absolute; display: block;}
 			.mui-grid-view.mui-grid-9 .mui-table-view-cell{padding: 0; border: 0;}
 			.mui-grid-view.mui-grid-9 .mui-table-view-cell .mui-badge,.mui-table-view-chevron .mui-badge{ display: none;}
-			.mui-grid-view.mui-grid-9 .mui-media .mui-icon{font-size:24px; color: #666;-webkit-text-stroke-width: 0.3px;}
+			.mui-grid-view.mui-grid-9 .mui-media .mui-icon{font-size:24px; color: #d2ac63;-webkit-text-stroke-width: 0.3px;}
 			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{ font-size: 12px;}
 			.mui-media.mui-col-xs-3{ width: 20%;}
 			.mui-table-view .iconfont{ font-size: 20px;-webkit-text-stroke-width: 0.3px;}
-			.table-view-iconlist .iconfont{margin-right: 5px;}
+			.table-view-iconlist .iconfont{margin-right: 5px; color: #d2ac63;}
 			.icon-top .iconfont{ position: relative; top: 2px;}
-			.mui-table-view .iconfont2{ font-size: 20px;-webkit-text-stroke-width: 0.3px;}
+			.mui-table-view .iconfont2{ font-size: 20px;-webkit-text-stroke-width: 0.3px; color: #d2ac63;}
 			.table-view-iconlist .iconfont2{margin-right: 5px;}
 			.icon-top .iconfont2{ position: relative; top: 2px;}
-			.user-info{ padding: 1px 0 12px;
-			background: #d2ac63;color: #fff; text-align: center; margin-top: -1px; height: 180px;}
-			.user-info img{ height: 70px; display:inline; border-radius: 100%;}
-			.user-info h3{ font-size: 16px; margin: 3px 0; position:relative; z-index: 3; line-height: 22px;}
+			.user-info{ padding: 10px 20px 0 20px;
+			background: #000;color: #fff; text-align: center; margin-top: -1px; height: 90px;}
+			.user-info img{ height: 50px; display:inline; border-radius: 100%; float:left;margin-right: 20px;}
+			.user-info #accountNoLogin{ margin-top: 15px;}
+			.user-info #accountLogined{ text-align: left;}
+			.user-info #accountRegion{ margin-left: 5px;}
+			.user-info h3{ font-size: 12px; margin: 3px 0; position:relative; z-index: 3; line-height: 22px; float: left;}
 			.user-info ul{ position: relative;z-index: 2;}
 			.user-info ul li{ list-style: none; width: 50%; float: left; padding: 0 5% 0 20%; text-align: center;}
 			.user-info ul li:first-child{ padding: 0 20% 0 5%; position: relative; }
 			.user-info ul li:first-child:after{content: '';position: absolute; right: 0; height: 20px;border-left: 1px solid #fff; bottom: 0;}
 			.user-info ul li strong{font-size: 22px; font-weight: normal;}
 			.user-info ul li p{ color: #fff; margin: 0;}
-			.scroll-div{ top: 181px;}
+			.scroll-div{ top: 91px;}
 			#userCapital .mui-row {border-bottom: solid 1px #eee;}
 			.btn-charge{ background: #d2ac63;color: #FFFFFF; text-align: center; width: 50px; line-height: 15px; display: inline-block;  font-size: 16px; right:85px!important;}
 			.btn-charge span{ font-size: 12px;}
@@ -51,17 +54,14 @@
 		<div class="mui-content">
 			<div class="user-info">
 				<img id="userPhoto" src="../images/default-photo.png" />
-				<h3 id="account">未登录</h3>
-				<ul class="mui-clearfix">
-					<li id="showFavProduct">
-						<strong id="FavoriteProduct">0</strong>
-						<p>商品收藏</p>
-					</li>
-					<li id="showFavShop">
-						<strong id="FavoriteShop">0</strong>
-						<p>店铺收藏</p>
-					</li>
-				</ul>
+				<h3 id="account">
+					<span id="accountNoLogin">未登陆</span>
+					<div id="accountLogined" style="display: none;">
+						<span id="accountName"></span><br/>
+						<span id="accountRole"></span>
+						<span id="accountRegion"></span>
+					</div>
+				</h3>
 			</div>
 			<div id="scrollDiv" class="scroll-div">
 				<ul class="mui-table-view mui-table-view-chevron table-view-combine">
@@ -105,116 +105,108 @@
 					
 				</ul>
 				
-				<div id="userCapital" style="display: none;">
+				<div id="userCapital">
 				    <div class="mui-row">
-				        <div class="mui-col-xs-6">
-				            <li class="mui-table-view-cell">
-				            	<span class="mui-icon iconfont2 icon-balance"></span>
-				            	<div class='value-panel'>
-					            	<span>余额</span><br/>
-					            	<span id='balance'></span>
-				            	</div>
-				            </li>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+						            	<span>余额</span>
+						            <hr class="split split-1" />
+						            	<span id='balance'>0.00</span>
+					            	</div>
+				            </div>
 				        </div>
-				        <div class="mui-col-xs-6" style="height:43px;">
-				            <li class="mui-table-view-cell" style="height: 100%">
-				            		<a class="btn-withdraw mui-btn mui-pull-right"><span>提现</span></a>
-				                <a class="btn-charge mui-btn mui-pull-left"><span>充值</span></a>
-				            </li>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+						            	<span>当前业绩</span><br/>
+						            	 <hr class="split split-2" />
+						            	<span id='performance'>0.00</span>
+					            	</div>
+				            </div>
+				        </div>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+						            	<span>可用业绩</span><br/>
+						            	<hr class="split split-2" />
+						            	<span id='usablePerformance'>0.00</span>
+					            	</div>
+				            </div>
 				        </div>
 				    </div>
 				    <div class="mui-row">
-				        <div class="mui-col-xs-6">
-				            <li class="mui-table-view-cell" style="border-right:solid 1px #eee">
-				            	<span class="mui-icon iconfont2 icon-hongbao"></span>
-				            	<div class='value-panel'>
-					            	<span>众享包</span><br/>
-					            	<span id='bonusAmount'></span>
-				            	</div>
-				            </li>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+						            	<span>众享包</span><br/>
+						            	<hr class="split split-3" />
+						            	<span id='bonusCount'>0.00</span>
+					            	</div>
+				            </div>
 				        </div>
-				        <div class="mui-col-xs-6">
-				            <li class="mui-table-view-cell">
-				            	<span class="mui-icon iconfont2 icon-daikuan"></span>
-				            	<div class='value-panel'>
-				                <span>货款</span><br/>
-				            		<span id='goodsCash'></span>
-				            	</div>
-				            </li>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+					                <span>当前众享包</span><br/>
+					                	<hr class="split split-3" />
+					            		<span id='bonusAmount'>0.00</span>
+					            	</div>
+				            </div>
+				        </div>
+				         <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell">
+					            	<div class='value-panel'>
+					                <span>累计众享包</span><br/>
+					                	<hr class="split split-3" />
+					            		<span id='totalBonusAmount'>0.00</span>
+					            	</div>
+				            </div>
 				        </div>
 				    </div>
 				    <div class="mui-row">
-				        <div class="mui-col-xs-6">
-				            <li class="mui-table-view-cell" style="border-right:solid 1px #eee">
-				            	<span class="mui-icon iconfont2 icon-yeji"></span>
-				            	<div class='value-panel'>
-					            	<span>业绩</span><br/>
-					            	<span id='performance'></span>
-				            	</div>
-				            </li>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+						            	<span>货款</span><br/>
+						            	<hr class="split split-4" />
+						            	<span id='goodsCash'>0.00</span>
+					            	</div>
+				            </div>
 				        </div>
-				        <div class="mui-col-xs-6">
-				            <li class="mui-table-view-cell">
-				            	<span class="mui-icon iconfont2 icon-xiaofei"></span>
-				            	<div class='value-panel'>
-				                <span>累计消费</span><br/>
-				            		<span id='totalConsumeAmount'></span>
-				            	</div>
-				            </li>
+				        <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell" style="border-right:solid 1px #eee">
+					            	<div class='value-panel'>
+					                <span>累计消费</span><br/>
+					                <hr class="split split-5" />
+					            		<span id='totalConsumeAmount'>0.00</span>
+					            	</div>
+				            </div>
+				        </div>
+				         <div class="mui-col-xs-4">
+				            <div class="mui-table-view-cell">
+					            	<div class='value-panel'>
+					                
+					            	</div>
+				            </div>
 				        </div>
 				    </div>
 				</div>
 				
 				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist">
 					<li class="mui-table-view-cell">
-						<a id="userCoupon" class="mui-navigate-right">
-							<span class="mui-icon iconfont icon-youhuiquan"></span>
-							<span class="mui-badge mui-badge-danger" id="Counpon"></span>我的优惠券
+						<a id="myBankCard" class="mui-navigate-right">
+							<span class="mui-icon iconfont2 icon-bankcard"></span>银行卡
 						</a>
 					</li>
 					<li class="mui-table-view-cell">
-							<span class="mui-icon iconfont icon-jifen"></span>我的积分
-							<span class="mui-badge mui-badge-inverted" id="Integral" style="display: inline-block;"></span>
+						<a id="offlineOrder" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-wodedingdan"></span>订单中心</a>
 					</li>
 					<li class="mui-table-view-cell">
-						<a id="myHistory" class="mui-navigate-right">
-							<span class="mui-icon iconfont icon-zuji"></span>我的足迹
-						</a>
-					</li>
-					<li class="mui-table-view-cell">
-                        <a id="myMerge" class="mui-navigate-right">
-                            <span class="mui-icon iconfont icon-pintuan"></span>
-                            <span class="mui-badge mui-badge-inverted" id="myMergeTip" style="display: inline-block;"></span>我的拼团
-                        </a>
-                    </li>
-				</ul>
-				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
-					<li class="mui-table-view-cell" id="myMemberCell" style="display: none;">
-                        <a id="myMember" class="mui-navigate-right">
-                            <span class="mui-icon iconfont2 icon-huiyuan"></span>
-                            <span class="mui-badge mui-badge-inverted"style="display: inline-block;"></span>我的会员
-                        </a>
-                    </li>
-					<li class="mui-table-view-cell">
-						<a id="offlineOrder" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-wodedingdan"></span>线下订单</a>
-					</li>
-					<li class="mui-table-view-cell" id="offlineOrderCenterCell" style="display:none">
-						<a id="offlineOrderCenter" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-dingdanzhongxin"></span>报单中心</a>
-					</li>
-				</ul>
-				
-				<ul class="mui-table-view mui-table-view-chevron table-view-iconlist icon-top">
-					<li class="mui-table-view-cell" style="display: none;">
-						<a id="showInvite" class="mui-navigate-right"><span class="mui-icon iconfont icon-yaoqing"></span>我要推广</a>
+						<a id="accountManagement" class="mui-navigate-right"><span class="mui-icon iconfont icon-account"></span>账户管理</a>
 					</li>
 					<li class="mui-table-view-cell">
 						<a id="address" class="mui-navigate-right"><span class="mui-icon iconfont icon-address"></span>收货地址管理</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a id="accountManagement" class="mui-navigate-right"><span class="mui-icon iconfont icon-account"></span>账号管理</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a id="myBankCard" class="mui-navigate-right"><span class="mui-icon iconfont2 icon-bankcard"></span>我的银行卡</a>
 					</li>
 				</ul>
 				<ul class="mui-table-view mui-table-view-chevron">
@@ -253,23 +245,10 @@
 							showLogin({},'/');
 						});
 					} else {
-						loadBalance();
+						getUserData();
 					}
 					
-					doc.getElementById('userCoupon').addEventListener('tap',function(){
-						if(himall.isLogin()){
-							himall.openVW('user-coupon.html');
-						}else{
-							showLogin({id:'user-coupon.html',url:'user/user-coupon.html'},'/');
-						}
-					});
-					doc.getElementById('myHistory').addEventListener('tap',function(){
-						if(himall.isLogin()){
-							himall.openVW('history.html');
-						}else{
-							showLogin({id:'history.html',url:'user/history.html'},'/');
-						}
-					});
+					
 					doc.getElementById('address').addEventListener('tap',function(){
 						if(himall.isLogin()){
 							himall.openVW('address.html');
@@ -278,27 +257,7 @@
 						}
 					});
 					
-					doc.getElementById('showFavProduct').addEventListener('tap',function(){
-						if(himall.isLogin()){
-							himall.openVW('user-favproduct.html');
-						}else{
-							showLogin({id:'user-favproduct.html',url:'user/user-favproduct.html'},'/');
-						}
-					});
-					doc.getElementById('showFavShop').addEventListener('tap',function(){
-						if(himall.isLogin()){
-							himall.openVW('user-favshop.html');
-						}else{
-							showLogin({id:'user-favshop.html',url:'user/user-favshop.html'},'/');
-						}
-					});
-					doc.getElementById('showInvite').addEventListener('tap',function(){
-						if(himall.isLogin()){
-							himall.openVW('user-invite.html');
-						}else{
-							showLogin({id:'user-invite.html',url:'user/user-invite.html'},'/');
-						}
-					});
+					
 					doc.getElementById('accountManagement').addEventListener('tap',function(){
 						if(himall.isLogin()){
 							himall.openVW('user-account.html','',{CellPhone:CellPhone});
@@ -316,17 +275,7 @@
 							showLogin({id:'order-refund-list.html'},'/');
 						}
 					});
-					doc.getElementById('myMerge').addEventListener('tap', function() {
-					    if (himall.isLogin()) {
-					    	if(this.value==0){
-					    		himall.openVW('merge-any.html', '../marketing/merge-any.html');
-					    	}else{
-					    		himall.openVW('merge-personal-list.html', '../marketing/merge-personal-list.html');
-					    	}
-					    } else {
-					        showLogin({id:'merge-personal-list.html', url:'marketing/merge-personal-list.html'}, '/');
-					    }
-					});
+					
 					
 					//offline order
 					doc.getElementById('offlineOrder').addEventListener('tap', function() {
@@ -334,20 +283,6 @@
 							himall.openVW('order-offline-box-confirm.html', '../order-offline-box-confirm.html');
 						}else{
 							showLogin({id:'order-offline-box-confirm.html', url: 'order-offline-box-confirm.html'}, '/');
-						}
-					});
-					doc.getElementById('offlineOrderCenter').addEventListener('tap', function() {
-					    if(himall.isLogin()){
-							himall.openVW('order-offline-box.html', '../order-offline-box.html');
-						}else{
-							showLogin({id:'order-offline-box.html', url: 'order-offline-box.html'}, '/');
-						}
-					});
-					doc.getElementById('myMember').addEventListener('tap', function() {
-					    if(himall.isLogin()){
-							himall.openVW('member-list-box.html');
-						}else{
-							showLogin({id:'member-list-box.html', url: 'user/member-list-box.html'}, '/');
 						}
 					});
 					doc.getElementById('myBankCard').addEventListener('tap', function() {
@@ -369,30 +304,6 @@
 			
 			function getUserData(){
 				state = himall.getState();
-				if (state.roles && state.roles.length) {
-					var isShowOfflineCenter = _.any(state.roles, function (role) {
-						return role != '普通会员';
-					});
-					
-					if (isShowOfflineCenter) {
-						document.getElementById('offlineOrderCenterCell').style.display = '';
-					} else {
-						document.getElementById('offlineOrderCenterCell').style.display = 'none';
-					}
-					
-					var isShowMyMember = _.any(state.roles, function (role) {
-						return role == '商家';
-					});
-					
-					if (isShowMyMember) {
-						document.getElementById('myMemberCell').style.display = '';
-					} else {
-						document.getElementById('myMemberCell').style.display = 'none';
-					}
-				}
-				account.innerHTML = state.account + '<br/>' + state.roles.join(', ');
-				document.getElementById('login').style.display='none';
-				document.getElementsByClassName('exit-box')[0].style.display='block';
 				userId=state.userId;
 				mui.ajax(URL+'api/UserCenter/GetUser/'+userId,{
 					dataType:'json',
@@ -400,30 +311,11 @@
 					timeout:10000,
 					success:function(data){
 						if(data.Success=='true'){
-							CellPhone=data.CellPhone;
-							document.getElementById('FavoriteProduct').innerText=data.FavoriteProduct;
-							document.getElementById('FavoriteShop').innerText=data.FavoriteShop;
-							himall.whichShow(data.WaitingForPay,'WaitingForPay');
-							himall.whichShow(data.WaitingForComments,'WaitingForComments');
-							himall.whichShow(data.WaitingForRecieve,'WaitingForRecieve');
-							himall.whichShow(data.WaitingForDelivery,'WaitingForDelivery');
-							himall.whichShow(data.RefundOrders,'RefundOrders');
-							himall.whichShow(data.Counpon,'Counpon');
-							document.getElementById('Integral').innerText=data.Integral+'分';
-							document.getElementById('myMerge').value=data.GroupTotal;
-							if(data.MyGroup>0){
-								document.getElementById('myMergeTip').innerText = data.MyGroup + '个团正在火拼中';
-							}
-							var userPhoto=data.Photo;
-							if(userPhoto=='')
-								userPhoto='../images/default-photo.png';
-							else
-								document.getElementById('userPhoto').src=userPhoto;
+							showUserState(state, data);
+							getUserCapital();
 						}
 					}
 				});
-				
-				loadBalance();
 			}
 			
 			function showOrderList(id){
@@ -432,6 +324,45 @@
 				}else{
 					showLogin({id:'order-list.html',extras:{orderStatus:id}},'/');
 				}
+			}
+			
+			function showUserState(state, data) {
+				document.getElementById('accountNoLogin').style.display = 'none';
+				document.getElementById('accountLogined').style.display = '';
+				document.getElementById('accountName').innerHTML = state.account;
+				document.getElementById('accountRole').innerHTML = state.roles.join(', ');
+				document.getElementById('login').style.display='none';
+				document.getElementsByClassName('exit-box')[0].style.display='block';
+				
+				CellPhone=data.CellPhone;
+				//order state
+				himall.whichShow(data.WaitingForPay,'WaitingForPay');
+				himall.whichShow(data.WaitingForComments,'WaitingForComments');
+				himall.whichShow(data.WaitingForRecieve,'WaitingForRecieve');
+				himall.whichShow(data.WaitingForDelivery,'WaitingForDelivery');
+				himall.whichShow(data.RefundOrders,'RefundOrders');
+				var userPhoto=data.Photo;
+				if(userPhoto=='')
+					userPhoto='../images/default-photo.png';
+				else
+					document.getElementById('userPhoto').src=userPhoto;
+			}
+			
+			function showUserCapital(data) {
+				if (data.RealName) {
+					document.getElementById('accountName').innerHTML = data.RealName;
+				}
+				if (data.RegionAddress) {
+					document.getElementById('accountRegion').innerHTML = data.RegionAddress;
+				}
+				document.getElementById('balance').innerText = data.Balance.toFixed(2);
+				document.getElementById('bonusAmount').innerText = data.BonusAmount;
+				document.getElementById('bonusCount').innerText = data.BonusCount ;
+				document.getElementById('totalBonusAmount').innerText =data.TotalBonusAmount;
+				document.getElementById('goodsCash').innerText = data.GoodsCash.toFixed(2);
+				document.getElementById('performance').innerText =  data.Performance.toFixed(2);
+				document.getElementById('totalConsumeAmount').innerText = data.TotalConsumeAmount.toFixed(2);
+				document.getElementById('usablePerformance').innerText = data.UsablePerformance.toFixed(2);
 			}
 			
 			//退出操作
@@ -490,7 +421,7 @@
 			}, false);
 			
 			
-			function loadBalance() {
+			function getUserCapital() {
 				//用户资金数据
 				mui.ajax(URL+'api/UserCenter/GetUserCaptial/' + himall.getState().userId,{
 					dataType:'json',
@@ -498,25 +429,12 @@
 					timeout:10000,
 					success:function(data){
 						if(data.success){
-							document.getElementById('balance').innerText = '￥' + data.data.Balance.toFixed(2);
-							document.getElementById('bonusAmount').innerText = '￥' + data.data.BonusAmount + ' (' + data.data.BonusCount + ')';
-							document.getElementById('goodsCash').innerText = '￥' + data.data.GoodsCash.toFixed(2);
-							document.getElementById('performance').innerText = '￥' + data.data.Performance.toFixed(2);
-							document.getElementById('totalConsumeAmount').innerText = '￥' + data.data.TotalConsumeAmount.toFixed(2);
-							document.getElementById('userCapital').style.display = '';
-							sessionStorage.setItem('userCapital', JSON.stringify(data.data));
+							showUserCapital(data.data);
 						}
 					}
 				});
 			}
 			
-			mui('#userCapital').on('tap', '.btn-charge', function () {
-				himall.openVW('charge-list-box.html');
-			})
-			
-			mui('#userCapital').on('tap', '.btn-withdraw', function () {
-				himall.openVW('withdraw-list-box.html');
-			})
 		</script>
 	</body>
 
