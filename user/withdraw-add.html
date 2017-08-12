@@ -34,10 +34,10 @@
 			</div>
 			<div class="form-list">
 				<ul>
-                    <li class="mui-table-view-cell" style="margin-bottom:0px;" ><a id="showWithDrawMode" class="mui-navigate-right"><span class="f-l">提现类型</span><span class="f-r" id="withDrawModeText">请选择提现类型</span><input type="hidden" value="" id="withDrawModeId"/></a></li>
-                    <li class="input-in" style="border-bottom: solid 1px #cfcfcf;"><span class="f-l">提现金额</span><span class="f-r"><input type="number" id="withDrawAmount" value="" class="input" placeholder="请输入提现金额"/></span></li>
-                    <li class="input-in" id="lineFee" style="margin-top:0px;margin-bottom:0px;display:none"><span class="f-l">手续费</span><span class="f-r"><input type="number" id="applyFee" value="" class="input" placeholder="" readonly/></span></li>
-                    <li class="input-in" style=""><span class="f-l">备注</span><span class="f-r"><input type="text" id="remark" value="" class="input" placeholder="说点什么"/></span></li>
+                    <li class="mui-table-view-cell" style="margin-bottom:0px;border-bottom: solid 1px #cfcfcf;" ><a id="showWithDrawMode" class="mui-navigate-right"><span class="f-l">提现类型</span><span class="f-r" id="withDrawModeText">请选择提现类型</span><input type="hidden" value="" id="withDrawModeId"/></a></li>
+                    <li class="input-in" style="border-bottom: solid 1px #cfcfcf;margin-top: 0px;"><span class="f-l">提现金额</span><span class="f-r"><input type="number" id="withDrawAmount" value="" class="input" placeholder="请输入提现金额"/></span></li>
+                    <li class="input-in" id="lineFee" style="border-bottom: solid 1px #cfcfcf;margin-top:0px;margin-bottom:0px;display:none"><span class="f-l">手续费</span><span class="f-r"><input type="number" id="applyFee" value="" class="input" placeholder="" readonly/></span></li>
+                    <li class="input-in" style="margin-top: 0px;"><span class="f-l">备注</span><span class="f-r"><input type="text" id="remark" value="" class="input" placeholder="说点什么"/></span></li>
                     <li class="certification"><a id="submitAds" class="btn">确认保存</a></li>
 				</ul>
 				
@@ -133,17 +133,23 @@
 			});
 			
 			function loadBalance() {
+				var w=plus.nativeUI.showWaiting('',{padlock:true});
 				//用户资金数据
 				mui.ajax(URL+'api/UserCenter/GetUserCaptial/' + himall.getState().userId,{
 					dataType:'json',
 					type:'get',
 					timeout:10000,
 					success:function(data){
+						w.close();
 						if(data.success){
 							document.getElementById('balance').innerText = '￥' + data.data.Balance.toFixed(2);
 							document.getElementById('goodsCash').innerText = '￥' + data.data.GoodsCash.toFixed(2);
 							document.getElementById('performance').innerText = '￥' + data.data.UsablePerformance.toFixed(2);
 						}
+					},
+					error:function(xhr,type,errorThrown){
+						w.close();
+						plus.nativeUI.toast('数据获取失败，请检查网络')
 					}
 				});
 			}

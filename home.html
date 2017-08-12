@@ -176,7 +176,7 @@
 				loadPage();
 				
 				//添加列表项的点击事件
-				mui('#productsList').on('tap', 'a', function(e) {
+				mui('#products').on('tap', 'a', function(e) {
 					var id = this.getAttribute('data-id');
 					showProduct(id);
 				});

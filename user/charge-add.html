@@ -11,17 +11,37 @@
 		<link href="../css/mui.listpicker.css" rel="stylesheet" />
     		<link href="../css/mui.poppicker.css" rel="stylesheet" />
 		<link href="../css/style.css" rel="stylesheet" />
+		<style>
+			#charge-info { 
+				text-align: center;
+				height: 60px;
+				background: #fff;
+				padding: 10px;
+				color: #666;
+			}
+			#balance {
+				display: block;
+				color: #d2ac63;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">充值</h1>
+			<h1 class="mui-title">余额充值</h1>
 		</header>
 		<div class="mui-content">
+			<div id="charge-info">
+				<span>可用余额</span>
+				<span id="balance"></span>
+			</div>
 			<div class="form-list">
 				<ul>
-                    <li class="input-in"><span class="f-l">充值金额</span><span class="f-r"><input type="number" id="chargeAmount" value="" class="input" placeholder="输入充值金额"/></span></li>
-                    <li class="mui-table-view-cell" ><a id="showChargeMode" class="mui-navigate-right"><span class="f-l">充值方式</span><span class="f-r" id="chargeModeText">请选择充值方式</span><input type="hidden" value="" id="chargeModeId"/></a></li>
+					<li class="mui-table-view-cell" style="border-bottom: solid 1px #cfcfcf;" ><a id="showChargeMode" class="mui-navigate-right"><span class="f-l">充值方式</span><span class="f-r" id="chargeModeText">线下充值</span><input type="hidden" value="" id="chargeModeId"/></a></li>
+                    <li class="input-in" style="margin-top: 0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">充值金额</span><span class="f-r"><input type="number" id="chargeAmount" value="" class="input" placeholder="输入充值金额"/></span></li>
+                    <li class="input-in" style="margin-top: 0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">转款人姓名</span><span class="f-r"><input type="text" id="transferFrom" value="" class="input" placeholder="输入转账人姓名"/></span></li>
+                    <li class="input-in" style="margin-top: 0px;border-bottom: solid 1px #cfcfcf;"><span class="f-l">联系方式</span><span class="f-r"><input type="number" id="contactPhone" value="" class="input" placeholder="输入联系方式"/></span></li>
+                    <li class="input-in" style="margin-top: 0px;"><span class="f-l">备注</span><span class="f-r"><input type="text" id="comment" value="" class="input" placeholder="说点什么"/></span></li>
                     <li class="certification"><a id="submitAds" class="btn">确认保存</a></li>
 				</ul>
 				
@@ -47,8 +67,11 @@
 				value: 3
 			}];
 			mui.plusReady(function() {
+				var userCapital = JSON.parse(localStorage.getItem('userCapital'));
+				//console.log(userCapital);
+				document.getElementById('balance').innerText = userCapital.Balance.toFixed(2);
 				//load category
-				var chargeModePicker = new mui.PopPicker({
+				/*var chargeModePicker = new mui.PopPicker({
 				}); 
 				chargeModePicker.setData(chargeModes);
 				document.getElementById('showChargeMode').addEventListener('tap',function(){
@@ -59,7 +82,7 @@
 						document.getElementById('chargeModeText').innerText = items[0].text;
 						document.getElementById('chargeModeId').value = items[0].value;
 					});
-				},false);
+				},false);*/
 			});
 			
 			document.getElementById('submitAds').addEventListener('tap',function(){
@@ -68,14 +91,24 @@
 					return false;
 				}
 				
-				if(document.getElementById('chargeModeId').value == ''){
-					plus.nativeUI.toast('请选择充值方式');
+				if(document.getElementById('transferFrom').value == ''){
+					plus.nativeUI.toast('请填写转款人姓名');
+					return false;
+				}
+				
+				if(document.getElementById('contactPhone').value == ''){
+					plus.nativeUI.toast('请填写转款人联系方式');
 					return false;
 				}
 				
 				var w=plus.nativeUI.showWaiting('',{padlock:true});
-				mui.ajax(URL+'api/Capital/AddReCharge?amount=' + document.getElementById('chargeAmount').value + '&chargeWay=' + document.getElementById('chargeModeId').value,{
-					data: {},
+				mui.ajax(URL+'api/Capital/AddReCharge',{
+					data: JSON.stringify({
+						Amount: document.getElementById('chargeAmount').value, 
+						TransName: document.getElementById('transferFrom').value, 
+					    TransPhone: document.getElementById('contactPhone').value, 
+					    Remark: document.getElementById('comment').value
+					}),
 					dataType:'json',
 					contentType:'application/json',
 					type:'POST',
@@ -85,12 +118,12 @@
 						if(data.success==true){
 							plus.nativeUI.toast('充值记录提交成功');
 							mui.fire(plus.webview.getWebviewById('charge-list.html'),'updateData');
-							setTimeout(function(){
-								plus.webview.currentWebview().close();
-							},1000)
 						}else{
 							plus.nativeUI.toast(data.msg);
 						}
+						setTimeout(function(){
+								plus.webview.currentWebview().close();
+							},1000)
 					},
 					error:function(xhr,type,errorThrown){
 						w.close();
